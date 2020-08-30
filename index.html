@@ -1,0 +1,60 @@
+<!--
+//doctor logs in
+//has a list of patients assigned
+//clicks on patient
+//pressess "prescriptions"
+//has list of drugs available to prescribe / text box to enter in
+//submits prescription
+//user is assigned prescribed drug
+//user can print out prescription
+//this prescription stays tied to user account
+/*
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 8080;
+
+app.get('/', (req, res) => {
+res.send("<h1>Hello World<h1>")
+});
+
+app.listen(port, () => console.log(`Server started on port http://localhost:${port}`));
+*/
+-->
+
+<!doctype html>
+<head>
+  <script src="index.js"></script>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<button onClick="displayDoctors()">List Doctors</button>
+
+<body>
+  <div>
+    <table id="doctorsTable">
+      <thead>
+        <tr>
+          <th>Doctor</th>
+          <th>Availabilities</th>
+        </tr>
+      </thead>
+    <tbody id="doctorsBody">
+
+    </tbody>
+  </div>
+
+</body>
+
+<!--
+    <thead>
+    <th>
+      Doctor's Name
+    </th>
+    <th>Timeslots</th>
+  </thead>
+  <tr>
+    <td>
+      <span>Dr Julian Ayoub</span>
+    </td>
+
+  </tr>
