@@ -27,9 +27,8 @@ app.listen(port, () => console.log(`Server started on port http://localhost:${po
   <meta charset="UTF-8">
   <link rel="stylesheet" href="styles.css">
 </head>
-<button onClick="displayDoctors()">List Doctors</button>
 
-<body>
+<body onLoad="displayDoctors()">
   <div>
     <table id="doctorsTable">
       <thead>
@@ -41,9 +40,15 @@ app.listen(port, () => console.log(`Server started on port http://localhost:${po
     <tbody id="doctorsBody">
 
     </tbody>
-  </div>
+    </div>
 
+    <div id="timeSlot">
+      <p></p>
+    </div>
+    
 </body>
+
+
 
 <!--
     <thead>
