@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const DoctorSchema = new Schema({
+const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -10,17 +9,19 @@ const DoctorSchema = new Schema({
     type: String,
     required: true
   },
-  verified:{
-      type: Boolean,
-      default: false
+  age:{
+    type: Number,
   },
-  providerId:{
-      type: String,
-      required: true
+  type:{
+    type:String,
+    required: true
   },
   password: {
     type: String,
     required: true
+  },
+  providerID:{
+    type: Number,
   },
   date: {
     type: Date,
@@ -28,6 +29,6 @@ const DoctorSchema = new Schema({
   }
 });
 
-const Doctor = mongoose.model('Doctor', DoctorSchema);
+const User = mongoose.model('User', UserSchema);
 
-module.exports = Doctor;
+module.exports = User;
