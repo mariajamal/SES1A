@@ -40,13 +40,6 @@
           />
         </div>
         <div class="form-group">
-          <label for="type">User Type</label>
-        <select onchange = "val()" name="type" id="type" class="type">
-            <option value="doctor">Doctor</option>
-            <option value="patient">Patient</option>
-          </select>
-        </div>
-        <div class="form-group">
           <label for="password2">Confirm Password</label>
           <input
             type="password"
@@ -56,6 +49,40 @@
             placeholder="Confirm Password"
             value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
           />
+        </div>
+        <div class="form-group ">
+          <label for="type">User Type</label>
+          <select onchange = "val()" name="type" id="type" class="type custom-select">
+            <option selected>Choose...</option>
+            <option value="doctor">Doctor</option>
+            <option value="patient">Patient</option>
+          </select>
+        </div>
+        <div id="doctor" style="display: none;">
+          <div class="form-group">
+            <label for="providerID">Provider ID</label>
+            <input
+              type="providerID"
+              id="providerID"
+              name="providerID"
+              class="form-control"
+              placeholder="Enter Provider ID"
+              value="<%= typeof providerID != 'undefined' ? providerID : '' %>"
+            />
+          </div>
+        </div>
+        <div id="patient" style="display: none;">
+          <div class="form-group">
+            <label for="age">Age</label>
+            <input
+              type="age"
+              id="age"
+              name="age"
+              class="form-control"
+              placeholder="Enter Age"
+              value="<%= typeof age != 'undefined' ? age : '' %>"
+            />
+          </div>
         </div>
         <button type="submit" class="btn btn-primary btn-block">
           Register
@@ -67,8 +94,17 @@
 </div>
 <script>
  function val() {
-    d = document.getElementById("type").value;
-    console.log(d);
-    return d;
+    e = document.getElementById("type").value;
+    var d = document.getElementById("doctor");
+    var p = document.getElementById("patient");
+    console.log(e);
+    if(e =='doctor'){
+      d.style.display = "block";
+      p.style.display = "none";
+    }
+    else{
+      d.style.display = "none";
+      p.style.display = "block";
+    }
 }
 </script>
