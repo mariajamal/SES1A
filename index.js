@@ -11,6 +11,7 @@ function createDoctor(name, availabilities){
     doctors.push(d);
 }
 
+
 createDoctor("Julian Ayoub", 
 [
     " 8:30am",
@@ -26,15 +27,6 @@ createDoctor("Maria Jamal",
     " 1:30pm"
  ]
 
-);
-
-createDoctor("Awesome Dude",
-
-[
-    " 11:30am",
-    " 12:30pm",
-    " 1:30pm"
- ]
 );
 
 createDoctor("Sabrina Hameed", 
@@ -56,8 +48,22 @@ createDoctor("Omar Jaradat",
 
 console.log(doctors);
 
+function clearTable() {
+    let askBooking = document.getElementById("timeSlot");
+    var myTable = document.getElementById("doctorsTable");
+    var rowCount = myTable.rows.length;
+    for (var x=rowCount-1; x>0; x--) {
+    myTable.deleteRow(x);
+    }
+    displayDoctors();
+    askBooking.innerHTML = null;
+ 
+    }
+
 function displayDoctors() { // loops through the doctors array and sets the appropriate data to its spot in the doctors table
+   // clearTable();
     let table = document.getElementById("doctorsTable");
+    
     for (let i = 0; i<doctors.length; i++){
         console.log(i);
         let row = table.insertRow(i+1);
@@ -68,16 +74,19 @@ function displayDoctors() { // loops through the doctors array and sets the appr
             if (j == 0) cell1.innerHTML = doc.username;
         }
         for (let x = 0; x< doc.availabilities.length; x++){
-            
+            if (doc.availabilities[x] !== null)
            cell1.innerHTML += "<button target ='_blank' onClick='bookAppointment("+i+", "+x+")'>"+doc.availabilities[x]+"</button>";
         }
     }
 }
 
-function bookAppointment(i, x){
+function bookAppointment(i, x,){
  let askBooking = document.getElementById("timeSlot");
  console.log(doctors[i].availabilities);
- askBooking.innerHTML = "Would you like to book an appointment for "+doctors[i].availabilities[x]+"";
+
+ askBooking.innerHTML = "Would you like to book an appointment for "+doctors[i].availabilities[x]+" with doctor "+doctors[i].username+"? <button onClick='clearTable()'>Confirm</button>";
+ doctors[i].availabilities[x] = null;
+ 
 }
 
 
