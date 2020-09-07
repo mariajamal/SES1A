@@ -23,6 +23,12 @@ const UserSchema = new mongoose.Schema({
   providerID:{
     type: Number,
   },
+  address:{
+    type:String
+  },
+  phone:{
+    type: Number,
+  },
   date: {
     type: Date,
     default: Date.now
