@@ -40,7 +40,8 @@ router.post('/register', (req, res) => {
       email,
       password,
       password2,
-      type
+      type,
+      providerID
     });
   } else {
     User.findOne({ email: email }).then(user => {
@@ -52,14 +53,16 @@ router.post('/register', (req, res) => {
           email,
           password,
           password2,
-          type
+          type,
+          providerID
         });
       } else {
         const newUser = new User({
           name,
           email,
           password,
-          type
+          type,
+          providerID
         });
 
         bcrypt.genSalt(10, (err, salt) => {
@@ -82,6 +85,23 @@ router.post('/register', (req, res) => {
     });
   }
 });
+
+router.put('/:userid',(req, res) => {
+  const { name, email, password, password2, type, providerID } = req.body;
+  User.findOneAndUpdate({ _id: req.params.userid }, {
+    name,
+    email,
+    password,
+    password2,
+    type,
+    providerID
+  })
+      .then(() => {
+          res.end()
+          console.log("Update was successful", req.body)
+      })
+
+})
 
 // Login
 router.post('/login', (req, res, next) => {
