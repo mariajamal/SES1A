@@ -5,6 +5,7 @@ const passport = require('passport');
 // Load User model
 const User = require('../models/User');
 const { forwardAuthenticated } = require('../config/auth');
+const { db } = require('../models/User');
 
 // Login Page
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
@@ -87,18 +88,49 @@ router.post('/register', (req, res) => {
 });
 
 router.put('/:userid',(req, res) => {
-  const { name, email, password, password2, type, providerID } = req.body;
-  User.findOneAndUpdate({ _id: req.params.userid }, {
-    name,
-    email,
-    password,
-    password2,
-    type,
-    providerID
+  const { name, email, password, password2, type, providerID, availability,
+          MondayStart, MondayEnd, TuesdayStart, TuesdayEnd,
+          WednesdayStart, WednesdayEnd, ThursdayStart, ThursdayEnd,
+          FridayStart, FridayEnd,
+          SaturdayStart, SaturdayEnd, SundayStart, SundayEnd
+  } = req.body;
+
+  User.findByIdAndUpdate({ _id: req.params.userid }, {
+    availability: {
+      Monday: {
+        Start: MondayStart,
+        End: MondayEnd
+      },
+      Tuesday: {
+        Start: TuesdayStart,
+        End: TuesdayEnd
+      }, 
+      Wednesday: {
+        Start: WednesdayStart,
+        End: WednesdayEnd
+      }, 
+      Thursday: {
+        Start: ThursdayStart,
+        End: ThursdayEnd
+      }, 
+      Friday: {
+        Start: FridayStart,
+        End: FridayEnd
+      }, 
+      Saturday: {
+        Start: SaturdayStart,
+        End: SaturdayEnd
+      }, 
+      Sunday: {
+        Start: SundayStart,
+        End: SundayEnd
+      } 
+    }
   })
       .then(() => {
           res.end()
-          console.log("Update was successful", req.body)
+          console.log("Update was successful", req.body);
+          res.redirect('/dashboard');
       })
 
 })

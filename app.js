@@ -7,6 +7,10 @@ const session = require('express-session');
 
 const app = express();
 
+const methodOverride = require('method-override');
+
+app.use(methodOverride('_method'));
+
 // Passport Config
 require('./app/config/passport')(passport);
 
@@ -19,7 +23,7 @@ mongoose
     db,
     { useNewUrlParser: true ,useUnifiedTopology: true}
   )
-  .then(() => console.log('MongoDB Connected'))
+  .then(() => console.log('MongoDB Connected :)'))
   .catch(err => console.log(err));
 
 // EJS
@@ -59,6 +63,6 @@ app.use(function(req, res, next) {
 app.use('/', require('./app/routes/index.js'));
 app.use('/users', require('./app/routes/users.js'));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, console.log(`Server started on port ${PORT}`));
+app.listen(PORT, console.log(`Server started on port http://localhost:${PORT}`));

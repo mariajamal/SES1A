@@ -12,4 +12,11 @@ router.get('/dashboard', ensureAuthenticated, (req, res) =>
   })
 );
 
+router.get('/bookAppointment', (req, res) => res.render('bookAppointment'));
+router.get('/bookAppointment2', (req, res) => res.render('bookAppointment2'));
+router.get('/Availabilities', ensureAuthenticated, (req, res) => 
+  res.render('Availabilities', {
+    user: req.user
+  }));
+
 module.exports = router;

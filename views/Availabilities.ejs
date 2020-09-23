@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<link >
+<head>
+    <script>
+        let script = 25;
+        let timeslots = { //time slots for data
+            0: 'N/A',
+            1: '12:00am',
+            2: '1:00am',
+            3: '2:00am',
+            4: '3:00am',
+            5: '4:00am',
+            6: '5:00am',
+            7: '6:00am',
+            8: '7:00am',
+            9: '8:00am',
+            10: '9:00am',
+            11: '10:00am',
+            12: '11:00am',
+            13: '12:00pm',
+            14: '1:00pm',
+            15: '2:00pm',
+            16: '3:00pm',
+            17: '4:00pm',
+            18: '5:00pm',
+            19: '6:00pm',
+            20: '7:00pm',
+            21: '8:00pm',
+            22: '9:00pm',
+            23: '10:00pm',
+            24: '11:00pm'
+        };
+
+        function setData(day, availability) { //checks if user data is equivilent to data being displayed
+            start = day + 'Start';            // if so choose this data be the default value
+            end = day + 'End';
+            for (let i = 0; i < script; i++) {
+                if (availability[day].Start != timeslots[i]) document.getElementById(start).innerHTML += '<option>'+timeslots[i]+'</option>';
+                    else document.getElementById(start).innerHTML += '<option selected="">'+timeslots[i]+'</option>';
+
+                if (availability[day].End != timeslots[i]) document.getElementById(end).innerHTML += '<option>'+timeslots[i]+'</option>';
+                    else document.getElementById(end).innerHTML += '<option selected="">'+timeslots[i]+'</option>';  
+            };
+        }
+       
+        window.onload = function() {  // set EJS data to javascript variable
+            let data = '<%- JSON.stringify(user.availability) %>'; 
+            let availability = JSON.parse(data);
+
+            setData('Monday', availability); //send data to be displayed
+            setData('Tuesday', availability);
+            setData('Wednesday', availability);
+            setData('Thursday', availability);
+            setData('Friday', availability);
+            setData('Saturday', availability);
+            setData('Sunday', availability);               
+    }  
+    </script>
+    <style>
+        form {
+            display: inline-block;
+        }
+        form.solid {
+                border-style: solid;
+                border-radius: 20px;
+    } 
+        .container {
+            width: 450;
+            clear: both;
+            text-align: center;
+            font-size: large;
+    }
+    
+    </style>
+</head>
+<body>
+    <h1 style="text-align:centre">Doctor Availabilities Form</h1>
+    <div class="container">
+        <form class="solid" style="width: 450;" style="border-style: solid;" method="POST" action="/users/<%= user._id %>?_method=PUT">
+           
+            <label for="Monday">Monday Start: </label>
+            <select name="MondayStart" id="MondayStart"> 
+            </select>
+            <label for="MondayEnd">Monday End:   </label>
+            <select name="MondayEnd" id="MondayEnd"> 
+            </select>
+            <br>
+            <br>
+            <label for="TuesdayStart">Tuesday Start: </label>
+            <select name="TuesdayStart" id="TuesdayStart"> 
+            </select>
+            <label for="TuesdayEnd">Tuesday End: </label>
+            <select name="TuesdayEnd" id="TuesdayEnd"> 
+            </select>
+            <br>
+            <br>
+            <label for="WednesdayStart">Wednesday Start: </label>
+            <select name="WednesdayStart" id="WednesdayStart"> 
+            </select>
+            <label for="WednesdayEnd">Wednesday End: </label>
+            <select name="WednesdayEnd" id="WednesdayEnd"> 
+            </select>
+            <br>
+            <br>
+            <label for="ThursdayStart">Thursday Start: </label>
+            <select name="ThursdayStart" id="ThursdayStart"> 
+            </select>
+            <label for="ThursdayEnd">Thursday End: </label>
+            <select name="ThursdayEnd" id="ThursdayEnd"> 
+            </select>
+            <br>
+            <br>
+            <label for="FridayStart">Friday Start: </label>
+            <select name="FridayStart" id="FridayStart"> 
+            </select>
+            <label for="FridayEnd">Friday End: </label>
+            <select name="FridayEnd" id="FridayEnd"> 
+            </select>
+            <br>
+            <br>
+            <label for="SaturdayStart">Saturday Start: </label>
+            <select name="SaturdayStart" id="SaturdayStart"> 
+            </select>
+            <label for="SaturdayEnd">Saturday End: </label>
+            <select name="SaturdayEnd" id="SaturdayEnd"> 
+            </select>
+            <br>
+            <br>
+            <label for="SundayStart">Sunday Start: </label>
+            <select name="SundayStart" id="SundayStart"> 
+            </select>
+            <label for="SundayEnd">Sunday End: </label>
+            <select name="SundayEnd" id="SundayEnd"> 
+            </select>
+
+            <br>
+            <input type="submit" padding="10px">
+        </form>
+    </div>
+</body>
