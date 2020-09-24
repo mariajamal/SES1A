@@ -4,11 +4,14 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
-
+const methodOverride = require('method-override');
 const app = express();
 
 // Passport Config
 require('./app/config/passport')(passport);
+
+//method-override
+app.use(methodOverride('_method'));
 
 // DB Config
 const db = require('./app/config/keys').mongoURI;

@@ -12,6 +12,32 @@ router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
 // Register Page
 router.get('/register', forwardAuthenticated, (req, res) => res.render('register'));
 
+// get doctors
+router.get('/doctors',(req,res)=> {
+  var query = { type: "doctor" };
+  User.find(query)
+  .then((data) => {
+    res.send(data)
+    console.log("List of doctors", req.body)
+    })
+    .catch((err) => {
+      res.send(err)
+  })
+})
+
+// get patients
+router.get('/patients',(req,res)=> {
+  var query = { type: "patient" };
+  User.find(query)
+  .then((data) => {
+    res.send(data)
+    console.log("List of patients", req.body)
+    })
+    .catch((err) => {
+      res.send(err)
+  })
+})
+
 // Register
 router.post('/register', (req, res) => {
   const { name, email, password, password2, type, providerID } = req.body;
@@ -86,15 +112,17 @@ router.post('/register', (req, res) => {
   }
 });
 
-router.put('/:userid',(req, res) => {
-  const { name, email, password, password2, type, providerID } = req.body;
+router.patch('/:userid',(req, res) => {
+  const { name, email, password, type, providerID } = req.body;
   User.findOneAndUpdate({ _id: req.params.userid }, {
-    name,
+   
+      name,
     email,
     password,
-    password2,
     type,
     providerID
+    
+    
   })
       .then(() => {
           res.end()

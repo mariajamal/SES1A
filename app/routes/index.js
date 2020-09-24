@@ -12,4 +12,11 @@ router.get('/dashboard', ensureAuthenticated, (req, res) =>
   })
 );
 
+// Availability
+router.get('/availability', ensureAuthenticated, (req, res) =>
+  res.render('availability', {
+    user: req.user
+  })
+);
+
 module.exports = router;
