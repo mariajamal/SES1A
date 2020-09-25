@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+
+<style>
+td, th {
+  border: 1px solid #c8c0b4;
+  border: 1px solid #eb6864;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #c8c0b4;
+  background-color: #eb6864;
+}
+
+body, html {
+   width: 100%;
+   height: 100%;
+   margin: 0;
+    background-color: #fbfaf8;
+    background-color: #ffffff;
+    font-family: sans-serif;
+   font-size: 10px;
+   font-size: 15px;
+
+ }
+
+ button {
+  background-color: #e7e7e7; color: black; /* Green */
+  border: 2px solid #555555;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin-left:10px;
+}
+
+#top,
+#bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 60%;
+}
+
+#top {
+  top: 0;
+}
+
+#bottom {
+  bottom: 0;
+} 
+</style>
+
+<script>
+let timeslots = { //time slots for data
+            0: 'N/A',
+            1: '12:00am',
+            2: '1:00am',
+            3: '2:00am',
+            4: '3:00am',
+            5: '4:00am',
+            6: '5:00am',
+            7: '6:00am',
+            8: '7:00am',
+            9: '8:00am',
+            10: '9:00am',
+            11: '10:00am',
+            12: '11:00am',
+            13: '12:00pm',
+            14: '1:00pm',
+            15: '2:00pm',
+            16: '3:00pm',
+            17: '4:00pm',
+            18: '5:00pm',
+            19: '6:00pm',
+            20: '7:00pm',
+            21: '8:00pm',
+            22: '9:00pm',
+            23: '10:00pm',
+            24: '11:00pm'
+        };
+
+let availabilities = {
+      Monday: {
+        Start: '9:00am',
+        End: '5:00pm'
+        }, 
+      Tuesday: {
+        Start: '9:00am',
+        End: '5:0pm'
+      }, 
+      Wednesday: {
+        Start: '9:00am',
+        End: '4:00pm'
+      }, 
+      Thursday: {
+        Start: '9:00am',
+        End: '6:00pm'
+      }, 
+      Friday: {
+        Start: '9:00am',
+        End: '5:00pm'
+      }, 
+      Saturday: {
+        Start: 'N/A',
+        End: 'N/A'
+      },
+      Sunday: {
+        Start: 'N/A',
+        End: 'N/A'
+      } 
+    } 
+
+    function setAppointments(day) {
+
+            let found = false;
+            let mondayStart = availabilities[day].Start;
+            let mondayEnd = availabilities[day].End;   
+            let k = 0;
+
+        if (mondayStart != 'N/A'){
+            for (let j = 0; j < 25; j++) {
+                if (mondayStart === timeslots[j]) found = true;
+                if (found) k++;
+                if (mondayEnd === timeslots[j]) j = 25;
+            }
+        }
+        return(k);
+    }
+
+    window.onload = function() {
+        setAppointments('Monday');
+        setAppointments('Tuesday');
+        setAppointments('Wednesday');
+        setAppointments('Thursday');
+        setAppointments('Friday');
+        setAppointments('Saturday');
+        setAppointments('Sunday');  
+    }
+</script>
+
+
+</head>
+
+<body>
+
+    <div id="top">
+        <table id="doctorsTable">
+          <thead>
+            <th>Doctor</th>
+            <th>Availabilities</th>
+        </tbody>
+        </div>
+    
+        <div id="timeSlot">
+          <p></p>
+    
+</body>
+</html>
