@@ -31,6 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use( express.static( "public" ) );
 
+
 // Express session
 app.use(
   session({
@@ -61,4 +62,16 @@ app.use('/users', require('./app/routes/users.js'));
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, console.log(`Server started on port ${PORT}`));
+
+
+const server = app.listen(PORT, console.log(`Server started on port ${PORT}`));
+/*
+// Socket.io Connection 
+let sock = socket(server);
+sock.on('connection', function(socket){
+  console.log('connection', socket.id);
+      socket.join('1');
+      socket.on('chat', function(data){
+          sock.to('1').emit('chat', data);
+  });
+}); */
