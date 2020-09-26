@@ -13,47 +13,51 @@
 <body>
   
 </script>
-
-    <div id="container" >
-
-
-        <div id="name-container"><input type="text" placeholder="Name" id="name"></div>
-        <div id="messages-container"></div>
-        <div id="text-container">
-            <input type="text" id="text" placeholder="Enter Message" > 
-            <span id="symb" class="btn btn-primary"><i class="far fa-paper-plane" id="send"></i></span>
-        </div>
+<div id="container" > 
+    <div id="name-container">Name</div>
+    <div id="messages-container"></div>
+    <div id="text-container">
+        <input type="text" id="text" placeholder="Enter Message" > 
+        <span id="symb" class="btn btn-primary"><i class="far fa-paper-plane" id="send"></i></span>
     </div>
+</div>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
       integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4="
       crossorigin="anonymous"
     ></script>
     <script>
-        let name = document.getElementById('name');
+        let name = document.getElementById('name-container');
+     
         let messages = document.getElementById('messages-container');
         let text = document.getElementById('text');
         let send = document.getElementById('symb');
-        
-       
+
+        const {room} = Qs.parse(location.search, {
+            ignoreQueryPrefix: true
+        })
+
+      
+        name.innerHTML = room;
+
         let socket = io.connect('http://127.0.0.1:5000/');
-        
-          
-        
+
+
+
 
         send.addEventListener('click', function(){
-
+        
         socket.emit('chat', {
             message: text.value,
-            name: name.value
+            name: '<%= user.name %>'
         });
         });
 
         socket.on('chat', function(data){
-            console.log(data.message);
-       messages.innerHTML += '<p><strong>' + '<%= user.name %>' + ': </strong>' + data.message + '</p>';
-     });
-    
+            
+            messages.innerHTML += '<p><strong>' + data.name + ': </strong>' + data.message + '</p>';
+            messages.scrollTop = messages.scrollHeight;
+        });
    </script>
 </body>  
 </html> 

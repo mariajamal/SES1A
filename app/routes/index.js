@@ -15,15 +15,29 @@ router.get('/dashboard', ensureAuthenticated, (req, res) =>
 
 //Chat room selection
 router.get('/room', ensureAuthenticated,  (req, res) => {
-  User.find({type: 'patient'}, function(err,doc){
-    if(err) throw err;
-    else{
-      res.render('room', {
-        user: req.user,
-        us: doc
-      })
-    }
-  });
+  if(req.user.type == "patient"){
+    User.find({type: 'doctor'}, function(err,doc){
+      if(err) throw err;
+      else{
+        res.render('room', {
+          user: req.user,
+          us: doc
+        })
+      }
+    });
+  }
+  else{
+    User.find({type: 'patient'}, function(err,doc){
+      if(err) throw err;
+      else{
+        res.render('room', {
+          user: req.user,
+          us: doc
+        })
+      }
+    });
+  }
+  
   });
 
   router.get('/chat', ensureAuthenticated,  (req, res) => {

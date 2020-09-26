@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
-
+const socket = require('socket.io');
 const app = express();
 
 // Passport Config
@@ -65,8 +65,7 @@ const PORT = process.env.PORT || 5000;
 
 
 const server = app.listen(PORT, console.log(`Server started on port ${PORT}`));
-/*
-// Socket.io Connection 
+
 let sock = socket(server);
 sock.on('connection', function(socket){
   console.log('connection', socket.id);
@@ -74,4 +73,4 @@ sock.on('connection', function(socket){
       socket.on('chat', function(data){
           sock.to('1').emit('chat', data);
   });
-}); */
+});

@@ -1,18 +1,38 @@
+html, body{
+    height: 100%;
+    width: 100%;
+    font-family: 'Poppins', sans-serif;
+    background-color: #e6e9ff !important;
+    
+}
+
 #container{
-    background: white;
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background:  #7386ff;;
     margin: auto;
+    width: 500px;
     max-width: 500px;
-    border: 1px solid black; 
+    border: 15px solid #7386ff;
+    border-top: 10px solid #7386ff;
+    border-bottom: 10px solid #7386ff;
+    border-radius: 10px;
 }
 
 #name-container{
-    border-bottom: 2px solid black; 
+    color:white;
+    font-size: 25px;
     text-align: center;
-    background: #E8E8E8;
+    background: #7386ff;
+    margin-bottom: 10px;
 }
 
 #name{
-    margin: 1px 0 1px 0;
+   
     background: #F8F8F8;
     text-align: center;
     border-radius: 5px;
@@ -25,16 +45,18 @@
 #messages-container{
     height: 500px;
     background: white;
-    box-shadow:     inset 0 0 5px #000000;
+    font-size: 15px;
     padding: 7px;
+    overflow-y: scroll;
+    word-wrap: break-word;
 }
 
 #text-container{
     margin: auto;
-    margin-bottom: 3px;
     
-    background: #E8E8E8;
-    border-top: 2px solid black
+    
+    background: #7386ff;
+    
     
 }
 
@@ -42,10 +64,11 @@
     margin: 1px 0 1px 3px;
     background: #F8F8F8;
     width: 87%;
-    border-radius: 5px;
-    border: 1px solid black;
+    font-size: 13px;
+    
+    border: 0px solid black;
     height: 40px;
-    padding-left: 5px;
+    padding-left: 10px;
     margin-top: 4px;
 }
 
@@ -60,6 +83,26 @@
     text-align: center;
     vertical-align: middle;
     margin-bottom: 1px;
-    border: black solid 1px;
-    border-radius: 10px;
+    
+    border-radius: 4px;
+    background-color: #E8E8E8;;
+    color: #7386ff;
+    height: 42px;
+}
+
+@media only screen and (max-width: 500px){
+    #container{
+        height: 100%;
+        width: 100%;
+        border: 0px;
+    }
+
+    #messages-container{
+        height: 88%;
+        max-height: 88%;
+    }
+    
+    #text{
+        max-width: 80%;
+    }
 }

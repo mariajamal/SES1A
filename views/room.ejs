@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		
-		<title>ChatCord App</title>
-    </head>
-	<body>
-		<div class="join-container">
-			
-			<main class="join-main">
-				<form action="/chat">
-					
-					<div class="form-control">
-						<label for="room">Select Chat</label>
-						<select name="room" id="room">
-							<% us.forEach((user, index) => { %>
-								<option value="<%= user.name %>"><%= user.name %></option>
-							<% }) %>
-							
-						</select>
-					</div>
-					<button type="submit" class="btn" id="send">Join Chat</button>
-				</form>
-			</main>
-		</div>
-    </body>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link  rel="stylesheet" href="/css/room.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     
-  
+    
+    <title>Document</title>
+</head>
+<body>
+    <div id="container">
+        <div id="title">Chat Selection</div>
+        <form action="/chat">
+            <div>
+                <label for="room">Select Chat</label>
+                <select name="room" id="room">
+                    <% us.forEach((user, index) => { %>
+                        <option value="<%= user.name %>"><%= user.name %></option>
+                    <% }) %>
+                </select>
+            </div>
+            <div class="button">
+                <button type="submit" class="btn" id="send">Join Chat</button>
+            </div>
+            
+        </form>
+    </div>
+</body>
 </html>
