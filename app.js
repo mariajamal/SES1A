@@ -69,8 +69,23 @@ const server = app.listen(PORT, console.log(`Server started on port ${PORT}`));
 let sock = socket(server);
 sock.on('connection', function(socket){
   console.log('connection', socket.id);
-      socket.join('1');
+    socket.on('joinRoom', function(data){
+
+      let rm = "";
+      if(data.type == "doctor"){
+        rm = data.name + data.rooms;
+        socket.join(rm);
+      }
+      
+      else{
+        rm = data.rooms + data.name
+        socket.join(rm);
+      }
+      console.log(rm);
       socket.on('chat', function(data){
-          sock.to('1').emit('chat', data);
-  });
+        sock.to(rm).emit('chat', data);
+      });
+    });
+      
+      
 });

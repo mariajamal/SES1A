@@ -3,7 +3,7 @@ html, body{
     width: 100%;
     font-family: 'Poppins', sans-serif;
     background-color: #e6e9ff !important;
-    
+    font-family: 'Poppins', sans-serif;
 }
 
 #container{
@@ -89,6 +89,27 @@ html, body{
     color: #7386ff;
     height: 42px;
 }
+
+#msg-container{
+    background-color: lightgrey;
+    background-color: #e6e9ff;
+    
+}
+
+#msg-name{
+    color: #7386ff;
+    font-size: 13px;
+    margin-bottom: 1px;
+    padding: 5px 5px 0px 5px;
+    
+}
+
+#msg-text{
+    color: black;
+    margin-bottom: 5px;
+    padding: 0px 5px 5px 5px;
+}
+
 
 @media only screen and (max-width: 500px){
     #container{
