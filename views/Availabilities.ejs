@@ -53,7 +53,9 @@
             setData('Thursday', availability);
             setData('Friday', availability);
             setData('Saturday', availability);
-            setData('Sunday', availability);               
+            setData('Sunday', availability);    
+
+            
     }  
     </script>
     <style>
@@ -132,7 +134,7 @@
             <label for="SundayEnd">Sunday End: </label>
             <select name="SundayEnd" id="SundayEnd"> 
             </select>
-
+            <input type="hidden" name ="user" id="user"value="<%= user%>">
             <br>
             <input type="submit" padding="10px">
         </form>
