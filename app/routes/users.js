@@ -5,6 +5,7 @@ const passport = require('passport');
 // Load User model
 const User = require('../models/User');
 const { forwardAuthenticated } = require('../config/auth');
+const { db } = require('../models/User');
 
 // Login Page
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
@@ -112,24 +113,94 @@ router.post('/register', (req, res) => {
   }
 });
 
-router.patch('/:userid',(req, res) => {
-  const { name, email, password, type, providerID } = req.body;
-  User.findOneAndUpdate({ _id: req.params.userid }, {
-   
-      name,
-    email,
-    password,
-    type,
-    providerID
-    
-    
+
+
+router.put('/:userid',(req, res) => {
+  const  { MondayStart, MondayEnd, TuesdayStart, TuesdayEnd,
+          WednesdayStart, WednesdayEnd, ThursdayStart, ThursdayEnd,
+          FridayStart, FridayEnd,
+          SaturdayStart, SaturdayEnd, SundayStart, SundayEnd, 
+  } = req.body;
+  let values = Object.values(req.body);
+  let errors = [];
+
+  let j = 1;
+  for (let i = 0; i < 13; i += 2, j += 2){
+    let startPeriod = values[i].slice(-2); // these are assigned am or pm 
+    let endPeriod = values[j].slice(-2);
+    dayStart = parseInt(values[i]);
+    dayEnd = parseInt(values[j]);
+    if (startPeriod === 'am' && dayStart === 12) dayStart = 0;
+    if (endPeriod === 'am' && dayEnd === 12) dayEnd = 0;
+    console.log(dayStart);
+    console.log(dayEnd);
+    if (startPeriod == 'pm') dayStart += 12; //if a value is pm assign is 12 extra hours as to convert to 24 hour
+    if (endPeriod == 'pm') dayEnd += 12;
+    if (!dayStart && dayStart !== 0){
+      dayStart = 'N/A';
+      startPeriod = 'am';
+      endPeriod = 'pm';
+    } 
+    if (!dayEnd && dayEnd !== 0) dayEnd = 'N/A';
+    //errors.push('hello');
+    if (dayStart !== 'N/A' || dayEnd !== 'N/A'){
+      if (dayStart >= dayEnd){
+      errors.push({ msg: 'Your  start time needs to be before the end time'});
+      }
+    }
+   if (dayStart === 'N/A' && dayEnd !== 'N/A') errors.push({ msg: 'You have selected N/A for start time, but not the end time'});
+   if (dayEnd === 'N/A'&& dayStart !== 'N/A') errors.push({ msg: 'You have selected N/A for end time, but not the start time'});
+}
+  if(errors.length > 0) {
+    res.render('Availabilities', {user: req.user, errors
+    });
+  } 
+  console.log(errors);
+  
+  if(errors.length == 0) {
+    console.log('3');
+  User.findByIdAndUpdate({ _id: req.params.userid }, {
+    availability: {
+      Monday: {
+        Start: MondayStart,
+        End: MondayEnd
+      },
+      Tuesday: {
+        Start: TuesdayStart,
+        End: TuesdayEnd
+      }, 
+      Wednesday: {
+        Start: WednesdayStart,
+        End: WednesdayEnd
+      }, 
+      Thursday: {
+        Start: ThursdayStart,
+        End: ThursdayEnd
+      }, 
+      Friday: {
+        Start: FridayStart,
+        End: FridayEnd
+      }, 
+      Saturday: {
+        Start: SaturdayStart,
+        End: SaturdayEnd
+      }, 
+      Sunday: {
+        Start: SundayStart,
+        End: SundayEnd
+      } 
+    }
   })
       .then(() => {
           res.end()
-          console.log("Update was successful", req.body)
+          console.log("Update was successful");
+          res.redirect('/Availabilities');
       })
-
+    }
 })
+
+
+
 
 // Login
 router.post('/login', (req, res, next) => {
@@ -146,5 +217,6 @@ router.get('/logout', (req, res) => {
   req.flash('success_msg', 'You are logged out');
   res.redirect('/users/login');
 });
+
 
 module.exports = router;

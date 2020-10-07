@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<style>
+
+.top {
+    float: left;
+}
+.bookAppointment {
+    display: flex;
+    justify-content: space-around;
+}
+
+.listDoctors {
+    border-style: solid;
+}
+
+td, th {
+    
+  border: 1px solid #c8c0b4;
+  border: 1px solid #eb6864;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(odd) {
+  background-color: #c8c0b4;
+  background-color: #eb6864;
+}
+
+body, html {
+   width: 100%;
+   height: 100%;
+   margin: 0;
+    background-color: #fbfaf8;
+    background-color: #ffffff;
+    font-family: sans-serif;
+   font-size: 10px;
+   font-size: 15px;
+
+ }
+
+ button {
+     margin: 0 10px;
+ }
+
+#top {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 80%
+}
+
+#bottom {
+    margin: 0 10px;
+}
+
+
+</style>
+
+<script>
+    let timeslots = { //time slots for data
+            0: 'N/A', 1: '12:00am', 2: '1:00am', 3: '2:00am', 4: '3:00am', 5: '4:00am', 6: '5:00am',
+            7: '6:00am', 8: '7:00am', 9: '8:00am', 10: '9:00am', 11: '10:00am', 12: '11:00am',
+            13: '12:00pm', 14: '1:00pm', 15: '2:00pm', 16: '3:00pm', 17: '4:00pm', 18: '5:00pm',
+            19: '6:00pm', 20: '7:00pm', 21: '8:00pm', 22: '9:00pm', 23: '10:00pm', 24: '11:00pm' 
+        };
+    
+    let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    let months ={
+        0: 31,
+        1: 28,
+        2: 31,
+        3: 30,
+        4: 31,
+        5: 30,
+        6: 31,
+        7: 31,
+        8: 30,
+        9: 31,
+        10: 30,
+        11: 31
+    }
+
+
+    function getTimeslots(day, array) {
+            let found = false;
+            let start = array[day].Start;
+            let end = array[day].End;   
+            let k = 0;
+
+        if (start !== "N/A"){
+            for (let j = 0; j <= 24; j++) {
+                if (start === timeslots[j]) found = true;
+                if (found) k++;
+                if (end === timeslots[j]) j = 25;
+            }
+        }
+        console.log(k);
+        return(k);
+    }
+
+    function clearTable() {
+    let myTable = document.getElementById("listDoctors");
+    let rowCount = myTable.rows.length;
+
+    for (let i = rowCount - 1; i > 0; i--) {
+        myTable.deleteRow(i); 
+    }
+}
+
+    function findTimeslotStart(x) {
+        for (let i = 0; i < Object.keys(timeslots).length; i++){
+            if (timeslots[i] === x) return i;
+                }
+    }
+
+    function bookAppointment(data){
+        
+        let doctorName = data.name;
+        
+        let timeslot = data.timeSlot;
+        let date = data.date;
+        
+        document.getElementById('bookAppointment').innerHTML = '<h4>Would you like to book an appointment with Dr '+name+' at '+timeslot+' on the '+date+'?</h4> <form class="solid" style="width: 450;" style="border-style: solid;" method="POST" action="/appointments" method="POST" ><input type="submit" class="btn btn-dark btn-sm" value="Confirm"></input></form>';
+
+    }
+
+    function listAvailabilities(doctor) {
+        clearTable();
+        document.getElementById('goBack').innerHTML = '<button class="btn btn-dark btn-sm" onClick="getDoctors()"">Go Back</button>';
+        let table = document.getElementById("listDoctors");
+        let dayNumber = parseInt(getToday());
+        let monthNumber = parseInt(getMonth());
+        let today = getDayofWeekNumber();
+        for (let i = 0; i < 14; i++) {
+            if (dayNumber > months[monthNumber]){
+                dayNumber = 1;
+                monthNumber++;
+            }
+            if (today == 7) today -= 7;
+            let dayOfWeek = getDayOfWeekWord(today);
+            let row = table.insertRow(i+1);
+            let date = dayNumber + '/' + monthNumber;
+            let cell = row.insertCell(0);
+            cell.innerHTML = '<h5>'+date+' '+dayOfWeek+'</h5>';
+            today++;
+            let cell2 = row.insertCell(1);
+            let doctorHours = getTimeslots(dayOfWeek, doctor.availability);
+            console.log(dayOfWeek);
+            let timeslotsLength = findTimeslotStart(doctor.availability[dayOfWeek].Start);
+                for (let j = 0; j < doctorHours; j++) {
+                    let z = {
+                        date: date,
+                        timeSlot: timeslots[timeslotsLength+j],
+                        doctor_id: doctor._id,
+                        patient_id: data = '<%- JSON.stringify(user._id) %>',
+                        name: doctor.name
+                    }
+                    z = JSON.stringify(z);
+                    cell2.innerHTML += "<button class='btn btn-dark btn-sm' onClick='bookAppointment("+z+")'> " + timeslots[timeslotsLength+j]; + " </button>";
+                }
+                dayNumber++;
+            }   
+    }
+
+//<input type="text" id="datepicker" class="txt-input autoclear datepicker" value="" onchange="changeDate(); return false;" readonly="readonly" style="position: relative; inset: auto;">
+
+    function displayDoctors(doctors) { // loops through the doctors array and sets the appropriate data to its spot in the doctors table
+   // clearTable();
+    let table = document.getElementById("listDoctors"); // look into attatching object into onClick... GOODNIGHT!
+    let x = {
+        0: 10
+    };
+    let b = JSON.stringify(x);
+
+    for (let i = 0; i<doctors.length; i++){
+        let row = table.insertRow(i+1);
+        let doc = doctors[i];
+        let cell = row.insertCell(0);
+        cell.innerHTML += '<h5>'+doctors[i].name+'</h5>';
+        let cell2 = row.insertCell(1);
+        let stringDoc = JSON.stringify(doc);
+        cell2.innerHTML += "<button class='btn btn-dark btn-sm' onClick='listAvailabilities(" + stringDoc + ")'>Book now</button>";
+    }
+}
+
+    function getDoctors() {
+        document.getElementById('bookAppointment').innerHTML = "";
+        document.getElementById('goBack').innerHTML = '';
+        clearTable();
+        var url = "http://localhost:8080/users/doctors";
+        fetch(url)
+            .then(function (response) {
+                return response.json();
+            }).then(function (obj) {
+                console.log(obj);
+                displayDoctors(obj);
+            }).catch(function (error) {
+                console.log('Fetching doctors error');
+            })
+    }
+
+    function getToday() {
+        let today = new Date();
+        let dd = String(today.getDate()).padStart(2, '0');
+        return dd;
+    }
+
+    function getDayOfWeekWord(dayOfTheWeek) {
+        let day = days[dayOfTheWeek];
+        return day;
+    }
+
+    function getDayofWeekNumber() {
+        let today = new Date();
+        return today.getDay();
+    }
+
+    function getMonth() {
+        let today = new Date();
+        let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        return mm;
+    }
+
+    window.onload = function() {
+        let data ='<%- JSON.stringify(user) %>'; 
+        let name = JSON.parse(data);
+        console.log(name);
+        
+        getDoctors();    
+    }
+</script>
+</head>
+
+<body>
+    <div id="page">
+
+        <div id="top" class="top">
+          
+            <p id="goBack"></p>
+            <table class="listDoctors" id="listDoctors">
+            <thead>
+                <th><h4><b>Doctor</b></h4></th>
+                <th><h4><b>Book Now</b></h4></th>
+            </thead>
+            <tbody>
+
+            </tbody>
+            
+        </div>
+        
+        <div id="bottom" class="bottom">
+            <div id=bookAppointment>
+            
+            </div>
+        </div>
+
+    </div>
+    
+</body>
+</html>
+
+
+
+
+
+<!--
+
+submit data
+
+
+when displaying data check date and time object, if they exist dont show them.
+how am I storing the date?
+
+
+
+Store all relevant data in an object.
+
+Display these date and times in the user pages.
+
+once the date passess move the appointment from the user pages.
+
+
+
+
+
+
+user provides date and time.
+
+when loading check the provided date and get the provided time.
+
+When displaying do not show provided time.
+
+

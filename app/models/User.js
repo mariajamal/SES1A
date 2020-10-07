@@ -10,7 +10,7 @@ const UserSchema = new mongoose.Schema({
     required: true
   },
   age:{
-    type: Number,
+    type: Number
   },
   type:{
     type:String,
@@ -34,8 +34,39 @@ const UserSchema = new mongoose.Schema({
     default: Date.now
   },
   availability:{
-    type: Array
+    type: Object,
+    default: {
+      Monday: {
+        Start: 'N/A',
+        End: 'N/A'
+        }, 
+      Tuesday: {
+        Start: 'N/A',
+        End: 'N/A'
+      }, 
+      Wednesday: {
+        Start: 'N/A',
+        End: 'N/A'
+      }, 
+      Thursday: {
+        Start: 'N/A',
+        End: 'N/A'
+      }, 
+      Friday: {
+        Start: 'N/A',
+        End: 'N/A'
+      }, 
+      Saturday: {
+        Start: 'N/A',
+        End: 'N/A'
+      },
+      Sunday: {
+        Start: 'N/A',
+        End: 'N/A'
+      } 
+    } 
   }
+
 });
 
 const User = mongoose.model('User', UserSchema);
