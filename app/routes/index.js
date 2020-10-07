@@ -11,6 +11,12 @@ router.get('/dashboard', ensureAuthenticated, (req, res) =>
     user: req.user
   })
 );
+router.get('/list',ensureAuthenticated,(req,res)=>
+res.render('list',{
+  user: req.user,
+  lists: req.lists
+})
+)
 
 // Availability
 router.get('/availability', ensureAuthenticated, (req, res) =>
