@@ -37,7 +37,6 @@
         const {room} = Qs.parse(location.search, {
             ignoreQueryPrefix: true
         })
-
       
         name.innerHTML = room;
 
@@ -49,9 +48,7 @@
             type: '<%= user.type %>'
         }) 
 
-
         send.addEventListener('click', function(){
-        
         socket.emit('chat', {
             message: text.value,
             name: '<%= user.name %>'

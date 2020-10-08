@@ -6,17 +6,44 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const socket = require('socket.io');
 const app = express();
+//const Message = require('./app/models/Message')
+
+const MessageSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  message: {
+    type: String,
+    required: true
+  },
+  room:{
+    type: String,
+  }
+});
+
+var Message = mongoose.model("Message", MessageSchema);
+
 
 // Passport Config
 require('./app/config/passport')(passport);
 
 // DB Config
 const db = require('./app/config/keys').mongoURI;
+const chatDb = require('./app/config/keys').chatURI;
 
 // Connect to MongoDB
 mongoose
   .connect(
     db,
+    { useNewUrlParser: true ,useUnifiedTopology: true}
+  )
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
+
+mongoose
+  .connect(
+    'mongodb+srv://adam123:thepass@cluster0.zhp7v.mongodb.net/test?retryWrites=true&w=majority',
     { useNewUrlParser: true ,useUnifiedTopology: true}
   )
   .then(() => console.log('MongoDB Connected'))
@@ -62,8 +89,6 @@ app.use('/users', require('./app/routes/users.js'));
 
 const PORT = process.env.PORT || 5000;
 
-
-
 const server = app.listen(PORT, console.log(`Server started on port ${PORT}`));
 
 let sock = socket(server);
@@ -81,11 +106,26 @@ sock.on('connection', function(socket){
         rm = data.rooms + data.name
         socket.join(rm);
       }
-      console.log(rm);
-      socket.on('chat', function(data){
-        sock.to(rm).emit('chat', data);
+      
+      socket.on('chat', function(d){
+        sock.to(rm).emit('chat', d);
+        
+
+        const newMessage = new Message({
+          name: d.name,
+          message: d.message,
+          room: rm
+        })
+
+        newMessage.save(function(err, data) {
+          if (err) return console.error(err);
+          done(null, data)
+        });
+
+       
+
+
+        
       });
     });
-      
-      
 });
