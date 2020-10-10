@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Chat</title>
+    <link  rel="stylesheet" href="/css/chat.css"/>
+    <script src="/socket.io/socket.io.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+  
+</script>
+<div id="container" > 
+    <div id="name-container">Name</div>
+    <div id="messages-container"></div>
+    <div id="text-container">
+        <input type="text" id="text" placeholder="Enter Message" > 
+        <span id="symb" class="btn btn-primary"><i class="far fa-paper-plane" id="send"></i></span>
+    </div>
+</div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
+      integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+        let name = document.getElementById('name-container');
+     
+        let messages = document.getElementById('messages-container');
+        let text = document.getElementById('text');
+        let send = document.getElementById('symb');
+
+        const {room} = Qs.parse(location.search, {
+            ignoreQueryPrefix: true
+        })
+      
+        name.innerHTML = room;
+
+        let socket = io.connect('http://127.0.0.1:5000/');
+
+        socket.emit('joinRoom', {
+            name: '<%= user.name %>',
+            rooms: room,
+            type: '<%= user.type %>'
+        }) 
+
+        send.addEventListener('click', function(){
+        socket.emit('chat', {
+            message: text.value,
+            name: '<%= user.name %>'
+        });
+        });
+
+        socket.on('chat', function(data){
+            messages.innerHTML += `<div id="msg-container">
+                <p id="msg-name">${data.name}</p>
+                <p id="msg-text">${data.message}</p>
+            </div>`
+           // messages.innerHTML += '<p><strong>' + data.name + ': </strong>' + data.message + '</p>';
+            messages.scrollTop = messages.scrollHeight;
+        });
+   </script>
+</body>  
+</html> 

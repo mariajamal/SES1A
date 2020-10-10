@@ -5,7 +5,26 @@ const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
+const socket = require('socket.io');
 const app = express();
+//const Message = require('./app/models/Message')
+
+const MessageSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  message: {
+    type: String,
+    required: true
+  },
+  room:{
+    type: String,
+  }
+});
+
+var Message = mongoose.model("Message", MessageSchema);
+
 
 //method-override
 app.use(methodOverride('_method'));
@@ -18,6 +37,7 @@ app.use(methodOverride('_method'));
 
 // DB Config
 const db = require('./app/config/keys').mongoURI;
+const chatDb = require('./app/config/keys').chatURI;
 
 // Connect to MongoDB
 mongoose
@@ -28,6 +48,14 @@ mongoose
   .then(() => console.log('MongoDB Connected :)'))
   .catch(err => console.log(err));
 
+mongoose
+  .connect(
+    'mongodb+srv://adam123:thepass@cluster0.zhp7v.mongodb.net/test?retryWrites=true&w=majority',
+    { useNewUrlParser: true ,useUnifiedTopology: true}
+  )
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
+
 // EJS
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
@@ -36,6 +64,7 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 
 app.use( express.static( "public" ) );
+
 
 // Express session
 app.use(
@@ -69,3 +98,43 @@ app.use('/appointments',require('./app/routes/appointments.js'))
 const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, console.log(`Server started on port http://localhost:${PORT}`));
+const server = app.listen(PORT, console.log(`Server started on port ${PORT}`));
+
+let sock = socket(server);
+sock.on('connection', function(socket){
+  console.log('connection', socket.id);
+    socket.on('joinRoom', function(data){
+
+      let rm = "";
+      if(data.type == "doctor"){
+        rm = data.name + data.rooms;
+        socket.join(rm);
+      }
+      
+      else{
+        rm = data.rooms + data.name
+        socket.join(rm);
+      }
+      
+      socket.on('chat', function(d){
+        sock.to(rm).emit('chat', d);
+        
+
+        const newMessage = new Message({
+          name: d.name,
+          message: d.message,
+          room: rm
+        })
+
+        newMessage.save(function(err, data) {
+          if (err) return console.error(err);
+          done(null, data)
+        });
+
+       
+
+
+        
+      });
+    });
+});
