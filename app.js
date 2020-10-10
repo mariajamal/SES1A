@@ -7,23 +7,9 @@ const session = require('express-session');
 const methodOverride = require('method-override');
 const socket = require('socket.io');
 const app = express();
-//const Message = require('./app/models/Message')
+const Message = require('./app/models/Message')
 
-const MessageSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  message: {
-    type: String,
-    required: true
-  },
-  room:{
-    type: String,
-  }
-});
 
-var Message = mongoose.model("Message", MessageSchema);
 
 
 //method-override
@@ -100,6 +86,10 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, console.log(`Server started on port http://localhost:${PORT}`));
 const server = app.listen(PORT, console.log(`Server started on port ${PORT}`));
 
+
+
+
+
 let sock = socket(server);
 sock.on('connection', function(socket){
   console.log('connection', socket.id);
@@ -126,12 +116,11 @@ sock.on('connection', function(socket){
           room: rm
         })
 
-        newMessage.save(function(err, data) {
-          if (err) return console.error(err);
-          done(null, data)
-        });
 
-       
+        newMessage.save()
+        .then(result => {console.log("Line 112 App.js: "+ result)})
+        .catch(err => {console.log(err)})
+      
 
 
         
