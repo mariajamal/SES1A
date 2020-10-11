@@ -34,6 +34,8 @@
         let text = document.getElementById('text');
         let send = document.getElementById('symb');
 
+        
+
         const {room} = Qs.parse(location.search, {
             ignoreQueryPrefix: true
         })
@@ -49,11 +51,67 @@
         }) 
 
         send.addEventListener('click', function(){
-        socket.emit('chat', {
-            message: text.value,
-            name: '<%= user.name %>'
+            if(text.value != ""){
+                socket.emit('chat', {
+                message: text.value,
+                name: '<%= user.name %>'
+            });
+            text.value = ""
+
+            }
+            
         });
-        });
+/*
+
+        let rm = "";
+      if(data.type == "doctor"){
+        rm = data.name + data.rooms;
+        socket.join(rm);
+      }
+      
+      else{
+        rm = data.rooms + data.name
+        socket.join(rm);
+      }
+*/
+        //rm = ('<%= user.type %>' == "doctor" ? '<%= user.type %>' + room : data.rooms + data.name);
+
+        /*Message.find({room: 'doctor'}, function(err,doc){
+        if(err) throw err;
+        else{
+            let rm = "";
+            if('<%= user.type %>' == "doctor"){
+                rm = '<%= user.type %>' + room;
+            }
+            else{
+                rm = data.rooms + data.name
+            }
+            
+            
+
+            res.render('room', {
+            user: req.user,
+            us: doc
+            })
+        }
+        });*/
+
+        socket.on('msgHistory', function(data){
+            messages.innerHTML = "";
+            let arr = data[Object.keys(data)[0]]
+            arr.forEach(element => {
+                messages.innerHTML += `<div id="msg-container">
+                <p id="msg-name">${element.name}</p>
+                <p id="msg-text">${element.message}</p>
+            </div>`
+            });
+            
+            
+        })
+
+       /* socket.on('msgHistory', fucntion(data){
+            console.log(data);
+        });*/
 
         socket.on('chat', function(data){
             messages.innerHTML += `<div id="msg-container">

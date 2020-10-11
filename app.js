@@ -8,9 +8,6 @@ const socket = require('socket.io');
 const app = express();
 const Message = require('./app/models/Message')
 
-
-
-
 // Passport Config
 require('./app/config/passport')(passport);
 
@@ -27,6 +24,7 @@ mongoose
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
+  /*
 mongoose
   .connect(
     'mongodb+srv://adam123:thepass@cluster0.zhp7v.mongodb.net/test?retryWrites=true&w=majority',
@@ -34,7 +32,7 @@ mongoose
   )
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
-
+*/
 // EJS
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
@@ -43,7 +41,6 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 
 app.use( express.static( "public" ) );
-
 
 // Express session
 app.use(
@@ -77,10 +74,6 @@ const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, console.log(`Server started on port ${PORT}`));
 
-
-
-
-
 let sock = socket(server);
 sock.on('connection', function(socket){
   console.log('connection', socket.id);
@@ -96,7 +89,14 @@ sock.on('connection', function(socket){
         rm = data.rooms + data.name
         socket.join(rm);
       }
-      
+
+      Message.find({room: rm}, function(err,doc){
+        if(err) throw err;
+        else{
+          sock.to(rm).emit('msgHistory', {data: doc});
+        }});
+            
+  
       socket.on('chat', function(d){
         sock.to(rm).emit('chat', d);
         
@@ -109,12 +109,9 @@ sock.on('connection', function(socket){
 
 
         newMessage.save()
-        .then(result => {console.log("Line 112 App.js: "+ result)})
+        .then(result => {console.log(result)})
         .catch(err => {console.log(err)})
       
-
-
-        
       });
     });
 });
