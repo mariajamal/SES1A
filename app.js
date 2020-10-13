@@ -7,9 +7,7 @@ const session = require('express-session');
 const methodOverride = require('method-override');
 const socket = require('socket.io');
 const app = express();
-const Message = require('./app/models/Message')
-
-
+const Message= require('./app/models/Message');
 
 
 //method-override
@@ -23,7 +21,7 @@ app.use(methodOverride('_method'));
 
 // DB Config
 const db = require('./app/config/keys').mongoURI;
-const chatDb = require('./app/config/keys').chatURI;
+// const chatDb = require('./app/config/keys').chatURI;
 
 // Connect to MongoDB
 mongoose
@@ -34,13 +32,7 @@ mongoose
   .then(() => console.log('MongoDB Connected :)'))
   .catch(err => console.log(err));
 
-mongoose
-  .connect(
-    'mongodb+srv://adam123:thepass@cluster0.zhp7v.mongodb.net/test?retryWrites=true&w=majority',
-    { useNewUrlParser: true ,useUnifiedTopology: true}
-  )
-  .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log(err));
+
 
 // EJS
 app.use(expressLayouts);
@@ -79,51 +71,35 @@ app.use(function(req, res, next) {
 // Routes
 app.use('/', require('./app/routes/index.js'));
 app.use('/users', require('./app/routes/users.js'));
-app.use('/appointments',require('./app/routes/appointments.js'))
+app.use('/appointments',require('./app/routes/appointments.js'));
+app.use('/message', require('./app/routes/message.js'));
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, console.log(`Server started on port http://localhost:${PORT}`));
+
 const server = app.listen(PORT, console.log(`Server started on port ${PORT}`));
-
-
-
-
 
 let sock = socket(server);
 sock.on('connection', function(socket){
   console.log('connection', socket.id);
     socket.on('joinRoom', function(data){
-
       let rm = "";
       if(data.type == "doctor"){
         rm = data.name + data.rooms;
         socket.join(rm);
-      }
-      
+      }    
       else{
         rm = data.rooms + data.name
         socket.join(rm);
-      }
-      
+      }  
       socket.on('chat', function(d){
         sock.to(rm).emit('chat', d);
-        
-
-        const newMessage = new Message({
+        const newMessage = {
           name: d.name,
           message: d.message,
           room: rm
-        })
-
-
-        newMessage.save()
-        .then(result => {console.log("Line 112 App.js: "+ result)})
-        .catch(err => {console.log(err)})
-      
-
-
-        
+        }
+        // Message.sa(newMessage)        
       });
     });
 });

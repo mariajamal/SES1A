@@ -3,6 +3,6 @@ dbPassword = 'mongodb+srv://Engineer:Engineer123@cluster0.htdmw.mongodb.net/<dbn
 
 module.exports = {
     mongoURI: dbPassword,
-    chatURI: chatDbPassword
+    
 };
  
