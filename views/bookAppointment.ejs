@@ -113,6 +113,7 @@ body, html {
                 }
     }
 
+    /*
     function bookAppointment(appointmentData){
         document.getElementById('bookAppointment').innerHTML = '<h4>Would you like to book an appointment with Dr '+appointmentData.doctorName+' at '+appointmentData.timeSlot+' on the '+appointmentData.date+'?</h4>';
         document.getElementById('postAppointment').innerHTML += '<input type="checkbox" class="urgent" id="urgent" name="urgent"></input><label class="form-check-label pull-right" for="urgent"><h5>Is this appointment urgent?</h5></label><br/>';
@@ -123,6 +124,16 @@ body, html {
         document.getElementById('doctorName').setAttribute("value", ''+appointmentData.doctorName+'');
         document.getElementById('patientName').setAttribute("value", ''+appointmentData.patientName+'');
         document.getElementById('postAppointment').innerHTML +='<input type="submit" style="margin: 10px, 10px" class="btn btn-dark btn-sm" value="Confirm"></input>';
+    }
+    */
+    function bookAppointment(data){
+        
+        let doctorName = data.name;
+        
+        let timeslot = data.timeSlot;
+        let date = data.date;
+        
+        document.getElementById('bookAppointment').innerHTML = '<h4>Would you like to book an appointment with Dr '+name+' at '+timeslot+' on the '+date+'?</h4> <form class="solid" style="width: 450;" style="border-style: solid;" method="POST" action="/appointments" method="POST" ><input type="submit" class="btn btn-dark btn-sm" value="Confirm"></input></form>';
 
     }
 

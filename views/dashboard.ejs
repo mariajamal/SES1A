@@ -2,9 +2,10 @@
 <p class="lead mb-3">Welcome <%= user.name %></p>
 <p class="lead mb-3">This user is a <%= user.type %></p>-->
 
-
+<a href="/room">Chat</a>
+<a href="/list">List of Doctors</a>
 <div class="w3-content w3-margin-top" style="max-width:1400px;" onload="val()">
-
+  <% include ./partials/navbar %>
     <!-- The Grid -->
     <div class="w3-row-padding">
     

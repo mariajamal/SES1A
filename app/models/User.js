@@ -5,6 +5,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  imgURL:{
+  type: String,
+  default: ''
+  },
   email: {
     type: String,
     required: true
@@ -32,6 +36,22 @@ const UserSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  addressLine1:{
+    type:String,
+    required: true
+  },
+  addressLine2:{
+    type:String,
+    required: true
+  },
+  suburb:{
+    type:String,
+    required: true
+  },
+  pincode:{
+    type:String,
+    required: true
   },
   availability:{
     type: Object,
