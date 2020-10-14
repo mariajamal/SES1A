@@ -46,9 +46,10 @@ router.post('/bookAppointment', (req, res) => {
 */
   router.post('/bookAppointment',(req, res) => {
     
-    const { patientName, doctorName, date, timeSlot, doctor_id, patient_id } = req.body;
+    const { urgent, patientName, doctorName, date, timeSlot, doctor_id, patient_id } = req.body;
     console.log(req.body);
     const newAppointment = new Appointment({
+      urgent,
       patientName,
       doctorName,
       date,

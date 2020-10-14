@@ -49,6 +49,10 @@ body, html {
      margin: 10px 10px;
  }
 
+ .urgent{
+     margin: 10px;
+ }
+
 #top {
   position: absolute;
   left: 0;
@@ -74,18 +78,7 @@ body, html {
     let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     let months ={
-        0: 31,
-        1: 28,
-        2: 31,
-        3: 30,
-        4: 31,
-        5: 30,
-        6: 31,
-        7: 31,
-        8: 30,
-        9: 31,
-        10: 30,
-        11: 31
+        0: 31, 1: 28, 2: 31, 3: 30, 4: 31, 5: 30, 6: 31, 7: 31, 8: 30, 9: 31, 10: 30, 11: 31
     }
 
 
@@ -121,25 +114,31 @@ body, html {
     }
 
     function bookAppointment(appointmentData){
-        console.log(appointmentData);
         document.getElementById('bookAppointment').innerHTML = '<h4>Would you like to book an appointment with Dr '+appointmentData.doctorName+' at '+appointmentData.timeSlot+' on the '+appointmentData.date+'?</h4>';
+        document.getElementById('postAppointment').innerHTML += '<input type="checkbox" class="urgent" id="urgent" name="urgent"></input><label class="form-check-label pull-right" for="urgent"><h5>Is this appointment urgent?</h5></label><br/>';
         document.getElementById('doctor_id').setAttribute("value", ''+appointmentData.doctor_id+'');
         document.getElementById('patient_id').setAttribute("value", ''+appointmentData.patient_id+'');
         document.getElementById('date').setAttribute("value", ''+appointmentData.date+'');
         document.getElementById('timeSlot').setAttribute("value", ''+appointmentData.timeSlot+'');
         document.getElementById('doctorName').setAttribute("value", ''+appointmentData.doctorName+'');
         document.getElementById('patientName').setAttribute("value", ''+appointmentData.patientName+'');
-        document.getElementById('postAppointment').innerHTML ='<input type="submit" style="margin: 10px, 10px" class="btn btn-dark btn-sm" value="Confirm"></input>';
+        document.getElementById('postAppointment').innerHTML +='<input type="submit" style="margin: 10px, 10px" class="btn btn-dark btn-sm" value="Confirm"></input>';
 
     }
 
     function listAvailabilities(doctor) {
         clearTable();
+        console.log(doctor)
+        let appointments = getAppointments();
+        console.log(appointments);
+
         document.getElementById('goBack').innerHTML = '<button class="btn btn-dark btn-sm" onClick="getDoctors()"">Go Back</button>';
         let table = document.getElementById("listDoctors");
         let dayNumber = parseInt(getToday());
         let monthNumber = parseInt(getMonth());
         let today = getDayofWeekNumber();
+
+
         for (let i = 0; i < 14; i++) {
             if (dayNumber > months[monthNumber]){
                 dayNumber = 1;
@@ -167,9 +166,19 @@ body, html {
                         patientName: patientName
                     };
 
-                    
-                    appointmentData = JSON.stringify(appointmentData);
+                    var url = "http://localhost:8080/appointments/";
+                    console.log(doctorName);
+                    fetch(url)
+                    .then(function (response) {
+                        return response.json();
+                        }).then(function (obj) {
+                            console.log(obj);
+                            appointmentData = JSON.stringify(appointmentData);
                     cell2.innerHTML += "<button class='btn btn-dark btn-sm' onClick='bookAppointment("+appointmentData+")'> " + timeslots[timeslotsLength+j]; + " </button>";
+                        }).catch(function (error) {
+                            console.log('Fetching doctors error');
+                        })
+                
                 }
                 dayNumber++;
             }   
@@ -177,7 +186,7 @@ body, html {
 
 //<input type="text" id="datepicker" class="txt-input autoclear datepicker" value="" onchange="changeDate(); return false;" readonly="readonly" style="position: relative; inset: auto;">
 
-    function displayDoctors(doctors) { // loops through the doctors array and sets the appropriate data to its spot in the doctors table
+    function displayDoctors(doctors, appointments) { // loops through the doctors array and sets the appropriate data to its spot in the doctors table
    // clearTable();
     let table = document.getElementById("listDoctors"); // look into attatching object into onClick... GOODNIGHT!
     let x = {
@@ -197,6 +206,7 @@ body, html {
 }
 
     function getDoctors() {
+        document.getElementById('isUrgent').innerHTML = "";
         document.getElementById('bookAppointment').innerHTML = "";
         document.getElementById('goBack').innerHTML = '';
         clearTable();
@@ -207,6 +217,20 @@ body, html {
             }).then(function (obj) {
                 console.log(obj);
                 displayDoctors(obj);
+            }).catch(function (error) {
+                console.log('Fetching doctors error');
+            })
+    }
+
+    function getAppointments(doctorName) {
+        var url = "http://localhost:8080/appointments/";
+        console.log(doctorName);
+        fetch(url)
+            .then(function (response) {
+                return response.json();
+            }).then(function (obj) {
+                console.log(obj);
+                return obj;
             }).catch(function (error) {
                 console.log('Fetching doctors error');
             })
@@ -235,7 +259,6 @@ body, html {
     }
 
     window.onload = function() {
-        
         getDoctors();    
     }
 </script>
@@ -260,8 +283,9 @@ body, html {
         
         <div id="bottom" class="bottom">
             <div id=bookAppointment>
-                hello
+                
             </div>
+            <h4 id="isUrgent"></h4>
             <form class="solid" style="width: 450;" style="border-style: solid;" action="/appointments/bookAppointment" method="POST" id="postAppointment">
                 <input type="hidden" id="doctor_id" name="doctor_id" ></input>
                 <input type="hidden" id="patient_id" name="patient_id" ></input>
