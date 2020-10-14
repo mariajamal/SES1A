@@ -191,13 +191,27 @@ router.put('/:userid',(req, res) => {
       } 
     }
   })
+}
+})
+
+router.patch('/:userid',(req, res) => {
+  const { name, email, password, type, providerID } = req.body;
+  User.findOneAndUpdate({ _id: req.params.userid }, {
+   
+      name,
+    email,
+    password,
+    type,
+    providerID
+    
+    
+  })
       .then(() => {
           res.end()
           console.log("Update was successful");
           res.redirect('/Availabilities');
       })
-    }
-})
+    })
 
 
 

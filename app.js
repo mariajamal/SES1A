@@ -14,7 +14,6 @@ app.use(methodOverride('_method'));
 require('./app/config/passport')(passport);
 
 
-
 // DB Config
 const db = require('./app/config/keys').mongoURI;
 
