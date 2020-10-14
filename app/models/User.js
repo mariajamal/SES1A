@@ -39,19 +39,19 @@ const UserSchema = new mongoose.Schema({
   },
   addressLine1:{
     type:String,
-    required: true
+    //required: true
   },
   addressLine2:{
     type:String,
-    required: true
+    //required: true
   },
   suburb:{
     type:String,
-    required: true
+    //required: true
   },
   pincode:{
     type:String,
-    required: true
+    //required: true
   },
   availability:{
     type: Object,
@@ -84,7 +84,7 @@ const UserSchema = new mongoose.Schema({
         Start: 'N/A',
         End: 'N/A'
       } 
-    } 
+    }
   }
 
 });

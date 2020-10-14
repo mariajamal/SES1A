@@ -132,10 +132,11 @@ router.put('/:userid',(req, res) => {
     dayEnd = parseInt(values[j]);
     if (startPeriod === 'am' && dayStart === 12) dayStart = 0;
     if (endPeriod === 'am' && dayEnd === 12) dayEnd = 0;
+    
+    if (startPeriod == 'pm' && dayStart !== 12) dayStart += 12; //if a value is pm assign is 12 extra hours as to convert to 24 hour
+    if (endPeriod == 'pm' && dayEnd !== 12) dayEnd += 12;
     console.log(dayStart);
     console.log(dayEnd);
-    if (startPeriod == 'pm') dayStart += 12; //if a value is pm assign is 12 extra hours as to convert to 24 hour
-    if (endPeriod == 'pm') dayEnd += 12;
     if (!dayStart && dayStart !== 0){
       dayStart = 'N/A';
       startPeriod = 'am';
@@ -191,27 +192,16 @@ router.put('/:userid',(req, res) => {
       } 
     }
   })
+  .then(() => {
+    res.end()
+    console.log("Update was successful");
+    res.redirect('/Availabilities');
+})
 }
 })
 
-router.patch('/:userid',(req, res) => {
-  const { name, email, password, type, providerID } = req.body;
-  User.findOneAndUpdate({ _id: req.params.userid }, {
-   
-      name,
-    email,
-    password,
-    type,
-    providerID
-    
-    
-  })
-      .then(() => {
-          res.end()
-          console.log("Update was successful");
-          res.redirect('/Availabilities');
-      })
-    })
+      
+  
 
 
 
