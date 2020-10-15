@@ -26,10 +26,11 @@ const AppointmentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    isUrgent: {
-        type: Boolean,
-
+    isUrgent:{
+        type:Boolean,
+        default: false
     }
+
 });
 
 const Appointment = mongoose.model('Appointment', AppointmentSchema);
