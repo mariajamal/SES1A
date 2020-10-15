@@ -48,8 +48,14 @@ router.post('/bookAppointment', (req, res) => {
     
     const { urgent, patientName, doctorName, date, timeSlot, doctor_id, patient_id } = req.body;
     console.log(req.body);
+    let isUrgent = true;
+    if (urgent === "on") {
+       isUrgent = true;
+    } else {
+       isUrgent = false;
+    }
     const newAppointment = new Appointment({
-      urgent,
+      isUrgent,
       patientName,
       doctorName,
       date,

@@ -26,8 +26,8 @@ const AppointmentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    urgent: {
-        type: String,
+    isUrgent: {
+        type: Boolean,
 
     }
 });
