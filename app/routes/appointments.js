@@ -4,16 +4,18 @@ const Appointment = require('../models/Appointment');
 
 //router.get('/bookAppointment', forwardAuthenticated, (req, res) => res.render('bookAppointment'));
 
-router.get('/',(req,res)=> {
-    
-  Appointment.find()
-  .then((data) => {
-      res.send(data)
-      console.log("List of appointmets", req.body)
-  })
-  .catch((err) => {
-      res.send(err)
-  })
+router.get('/doc/:userid',(req,res)=> {
+  console.log(req.params.userid)
+  var query = { doctor_id: req.params.userid};
+  Appointment.find(query)
+    .then((data) => {
+      res.send(data);
+      console.log("List of appointments", req.body);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+
 });
 /*
 router.post('/bookAppointment', (req, res) => {

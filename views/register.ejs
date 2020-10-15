@@ -84,6 +84,51 @@
             />
           </div>
         </div>
+        <div class="form-group">
+          <label for="addressLine1">addressline1</label>
+          <input
+            type="addressLine1"
+            id="addressLine1"
+            name="addressLine1"
+            class="form-control"
+            placeholder="Enter Addressline1"
+            value="<%= typeof addressLine1 != 'undefined' ? addressLine1 : '' %>"
+          />
+        </div>
+        
+        <div class="form-group">
+          <label for="suburb">suburb</label>
+          <input
+            type="suburb"
+            id="suburb"
+            name="suburb"
+            class="form-control"
+            placeholder="Enter suburb"
+            value="<%= typeof suburb != 'undefined' ? suburb : '' %>"
+          />
+        </div>
+        <div class="form-group">
+          <label for="state">State</label>
+          <input
+            type="state"
+            id="state"
+            name="state"
+            class="form-control"
+            placeholder="Enter State"
+            value="<%= typeof state != 'undefined' ? state : '' %>"
+          />
+        </div>
+        <div class="form-group">
+          <label for="pincode">pincode</label>
+          <input
+            type="pincode"
+            id="pincode"
+            name="pincode"
+            class="form-control"
+            placeholder="Enter pincode"
+            value="<%= typeof pincode != 'undefined' ? pincode : '' %>"
+          />
+        </div>
         <button type="submit" class="btn btn-primary btn-block">
           Register
         </button>

@@ -231,45 +231,6 @@ let timeslots = { //time slots for data
     }
 }
 
-    function bookAppointment(data){
-        console.log(data)
-        let doctorName = data.doctorName;
-        let timeSlot = data.timeSlot;
-        let date = data.date;
-        //<input type="checkbox" class="urgent" id="urgent" name="urgent"></input><label class="form-check-label pull-right" for="urgent"><h5>Is this appointment urgent?</h5></label><br/>'
-        document.getElementById('bookAppointment').innerHTML = '<h4 id="askDetails">Would you like to book an appointment with Dr '+doctorName+' at '+timeSlot+' on the '+date+'?</h4>';
-        document.getElementById('isUrgent').innerHTML = '<input type="checkbox" class="urgent" id="urgent" name="urgent"></input><label class="form-check-label pull-right" for="urgent"><h5>Is this appointment urgent?</h5></label><br/>';
-        document.getElementById('doctor_id').setAttribute("value", ''+data.doctor_id+'');
-        document.getElementById('patient_id').setAttribute("value", ''+data.patient_id+'');
-        document.getElementById('date').setAttribute("value", ''+data.date+'');
-        document.getElementById('timeSlot').setAttribute("value", ''+data.timeSlot+'');
-        document.getElementById('doctorName').setAttribute("value", ''+data.doctorName+'');
-        document.getElementById('patientName').setAttribute("value", ''+data.patientName+'');
-        document.getElementById('confirm').innerHTML ='<input type="submit" style="margin: 10px, 10px" class="btn btn-dark btn-sm" value="Confirm"></input>';
-        
-    }
-
-    function getToday() { // example responce: 14 (if the date is 14/10/2020)
-        let today = new Date();
-        let dd = String(today.getDate()).padStart(2, '0');
-        return dd;
-    }
-
-    function getDayOfWeekWord(dayOfTheWeek) { // example responce: Monday, Tuesday 
-        let day = days[dayOfTheWeek];
-        return day;
-    }
-
-    function getDayofWeekNumber() { // Will return a number between 0-6. 
-        let today = new Date(); //if it is Sunday will return 0, increment by one for each day
-        return today.getDay();
-    }
-
-    function getMonth() { // will return month as a number. Example responce 10 (if date is 14/09/2020)
-        let today = new Date();
-        let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        return mm;
-    }
     
 
     window.onload = function() {
@@ -277,7 +238,7 @@ let timeslots = { //time slots for data
         let name = JSON.parse(data);
         console.log(name);
         
-        getDoctors();    
+        getPatients();    
     }
 </script>
 </head>
@@ -290,40 +251,6 @@ let timeslots = { //time slots for data
         
     </div>
 
-    <div id="top">
-        <p id="goBack" class="goBack"></p>
-    </div>
-
-    
-    <div id="appointmentList" class="appointmentList">
-        <div id="bookAppointment">
-
-        </div>
-        
-        </div>
-        <form class="postAppointment"s  id="postAppointment" style="width: 450;" style="border-style: solid;" action="/appointments/bookAppointment" method="POST">
-            <p id="isUrgent"></p>
-            <input type="hidden" id="doctor_id" name="doctor_id" ></input>
-            <input type="hidden" id="patient_id" name="patient_id" ></input>
-            <input type="hidden" id="date" name="date" ></input>
-            <input type="hidden" id="timeSlot" name="timeSlot" ></input>
-            <input type="hidden" id="doctorName" name="doctorName" ></input>
-            <input type="hidden" id="patientName" name="patientName" ></input>
-            <p id="confirm"></p>
-
-        </form>
-    
-
-        <table class="listTimeslots" id="listTimeslots">
-            <thead>
-                <th><h4><b id="dateHead"></b></h4></th>
-                <th><h4><b id="timeslotHead"></b></h4></th>
-            </thead>
-            <tbody>
-
-            </tbody>
-            
-    </div>
     
 </body>
 </html>
