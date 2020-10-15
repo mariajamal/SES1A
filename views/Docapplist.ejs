@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<style>
+
+.top {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 80%;
+  margin: 10px, 10px
+  }
+
+
+.listTimeslots {
+    margin: 20px 10px;
+}
+
+.listTimeslots button {
+    margin: 8px 5px;
+}
+
+
+</style>
+
+<script>
+
+
+
+
+    
+    function displayPatients(patients) { // loops through the doctors array and sets the appropriate data to its spot in the doctors table
+        
+        
+        
+
+        for (let i = 0; i<patients.length; i++){
+            
+            // let doc = patients[i];
+            // let mainDiv = document.getElementById("docList");
+            // let divCard = document.createElement("DIV");
+            // divCard.classList.add("card");
+            // let img = document.createElement("IMG");
+            // img.classList.add("card-img-top");
+            // img.src =  'doctor.png';
+            // let divBody = document.createElement("DIV");
+            // divBody.classList.add("card-body");
+            // var docName = document.createElement("H5");
+            // docName.classList.add("card-title");
+            // docName.innerHTML= patients[i].name;
+
+            // let address= document.createElement("DIV");
+            
+            // var a = document.createElement("A");
+            // var addressline1 = document.createElement("H5");
+            
+            // var link = document.createTextNode(doctors[i].addressLine1 + ", " + doctors[i].addressLine2 + ", "+doctors[i].suburb+", "+ doctors[i].state+", "+ doctors[i].pincode);
+            // a.href = 'https://www.google.com/maps/search/' + doctors[i].addressLine1 + ", " +doctors[i].suburb+", "+ doctors[i].state+", "+ doctors[i].pincode, '_blank'
+            // let appointmentButton = document.createElement("BUTTON");
+            // appointmentButton.classList.add("btn");
+            // appointmentButton.classList.add("btn-primary");
+            // appointmentButton.onclick = function() {getAppointments(doctors[i]);};
+            // appointmentButton.innerHTML="Book Appointment";
+            // let messageButton = document.createElement("BUTTON");
+            // messageButton.classList.add("btn");
+            // messageButton.classList.add("btn-success");
+            // messageButton.innerHTML="Message Doctor";
+            
+            // divBody.appendChild(docName);
+            
+            // a.appendChild(link);
+            // address.appendChild(a);
+            // divBody.appendChild(address);
+            // divBody.appendChild(appointmentButton);
+            // divBody.appendChild(messageButton);
+            // divCard.appendChild(img);
+            // divCard.appendChild(divBody);
+            // mainDiv.appendChild(divCard);
+
+           
+
+        }
+}
+    
+
+    function getPatients() {
+        let data ='<%- JSON.stringify(user) %>'; 
+        let user = JSON.parse(data);
+        // console.log(name._id);
+        var url = `http://localhost:5000/appointments/doc/${user._id}`;
+        fetch(url)
+            .then(function (response) {
+                return response.json();
+            }).then(function (obj) {
+                displayPatients(obj);
+            }).catch(function (error) {
+                console.log('Fetching appointments error');
+            })
+    }
+
+   
+    
+
+
+    
+
+    window.onload = function() {
+        
+        
+        getPatients();    
+    }
+</script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row" id ="row">
+            <div class="card-deck" id="docList">
+                <p><%= user.name %></p>
+            </div>
+        </div>
+        
+    </div>
+
+    
+</body>
+</html>

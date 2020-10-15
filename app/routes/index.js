@@ -21,6 +21,12 @@ res.render('list',{
 })
 )
 
+router.get('/docapplist',ensureAuthenticated,(req,res)=>
+res.render('Docapplist',{
+  user: req.user,
+})
+)
+
 // Availability
 router.get('/availability', ensureAuthenticated, (req, res) =>
   res.render('availability', {
