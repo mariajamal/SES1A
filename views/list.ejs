@@ -9,9 +9,21 @@
 <style>
 
 .top {
-    float: left;
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 80%;
+  margin: 10px, 10px
+  }
+
+
+.listTimeslots {
+    margin: 20px 10px;
 }
 
+.listTimeslots button {
+    margin: 8px 5px;
+}
 
 
 </style>
@@ -20,6 +32,7 @@
 
 
 
+    
 
 let timeslots = { //time slots for data
             0: 'N/A', 1: '12:00am', 2: '1:00am', 3: '2:00am', 4: '3:00am', 5: '4:00am', 6: '5:00am',
@@ -58,7 +71,7 @@ let timeslots = { //time slots for data
     }
     
     function displayDoctors(doctors) { // loops through the doctors array and sets the appropriate data to its spot in the doctors table
-    // clearTable();
+        clearTable();
         document.getElementById("goBack").innerHTML = "";
         console.log(doctors);
         let table = document.getElementById("listDoctors"); // look into attatching object into onClick... GOODNIGHT!
@@ -104,7 +117,6 @@ let timeslots = { //time slots for data
     
 
     function getDoctors() {
-        
         var url = "http://localhost:5000/users/doctors";
         fetch(url)
             .then(function (response) {
@@ -126,13 +138,10 @@ let timeslots = { //time slots for data
         let dayNumber = parseInt(getToday());
         let monthNumber = parseInt(getMonth());
         let today = getDayofWeekNumber();
-        
 
         let patient_id = JSON.parse('<%- JSON.stringify(user._id) %>');
         let patientName = JSON.parse('<%- JSON.stringify(user.name) %>');
         
-
-
         fetch(url)
             .then(function (response) {
                 return response.json();
@@ -140,9 +149,6 @@ let timeslots = { //time slots for data
                 for (let i = 0; i < doctorsAppointmentSchedule.length; i++) {
                     if (doctorsAppointmentSchedule[i].doctor_id === id) appointments.push(doctorsAppointmentSchedule[i]);
                 }
-                console.log(appointments);
-                
-
                 document.getElementById('goBack').innerHTML = '<button class="btn btn-dark btn-sm" onClick="getDoctors()"">Go Back</button>';
                 let table = document.getElementById('listTimeslots');
                 document.getElementById('dateHead').innerHTML = 'Date'
@@ -173,17 +179,19 @@ let timeslots = { //time slots for data
                         date: date,
                         timeSlot: timeslots[timeslotsLength+j]
                     };
-                    console.log(appointmentData);
-                    appointmentData = JSON.stringify(appointmentData);
-                    let displayOnce = false;
-                    for (let x = 0; x <appointments.length; x++){
-                        
-                        if (!(appointments[x].date === appointmentData.date) && !(appointments[x].timeSlot === appointmentData.timeSlot) && displayOnce === false){
-                         cell2.innerHTML += "<button class='btn btn-dark btn-sm' onClick='bookAppointment("+appointmentData+")'> " + timeslots[timeslotsLength+j]; + " </button>";
-                         displayOnce = true;
+                    let displayTimeSlot = false;
+                    console.log('------');
+                    for (let x = 0; x < appointments.length; x++){
+                        if ((appointments[x].date === appointmentData.date) && 
+                        (appointments[x].timeSlot === appointmentData.timeSlot)) {
+                            displayTimeSlot = true;
                         }
-
                     }
+                       if (!displayTimeSlot){
+                            let sendAppointmentData = JSON.stringify(appointmentData);
+                            cell2.innerHTML += "<button class='btn btn-dark btn-sm' onClick='bookAppointment("+sendAppointmentData+")'> " + timeslots[timeslotsLength+j]; + " </button>";
+                            
+                         }
                 }
             dayNumber++;
         }
@@ -195,21 +203,38 @@ let timeslots = { //time slots for data
 
             
     }
+    function clearTable() {
+    let myTable = document.getElementById("listTimeslots");
+    let rowCount = myTable.rows.length;
+    
+    document.getElementById('dateHead').innerHTML = "";
+    document.getElementById('timeslotHead').innerHTML = "";
+    document.getElementById('goBack').innerHTML = "";
+    document.getElementById('isUrgent').innerHTML = "";
+    document.getElementById('bookAppointment').innerHTML = ""
+    document.getElementById('confirm').innerHTML = "";
+    confirm
+    for (let i = rowCount - 1; i > 0; i--) {
+        myTable.deleteRow(i); 
+    }
+}
 
     function bookAppointment(data){
-        let doctorName = data.name;
-        let timeslot = data.timeSlot;
+        console.log(data)
+        let doctorName = data.doctorName;
+        let timeSlot = data.timeSlot;
         let date = data.date;
+        //<input type="checkbox" class="urgent" id="urgent" name="urgent"></input><label class="form-check-label pull-right" for="urgent"><h5>Is this appointment urgent?</h5></label><br/>'
+        document.getElementById('bookAppointment').innerHTML = '<h4 id="askDetails">Would you like to book an appointment with Dr '+doctorName+' at '+timeSlot+' on the '+date+'?</h4>';
+        document.getElementById('isUrgent').innerHTML = '<input type="checkbox" class="urgent" id="urgent" name="urgent"></input><label class="form-check-label pull-right" for="urgent"><h5>Is this appointment urgent?</h5></label><br/>';
+        document.getElementById('doctor_id').setAttribute("value", ''+data.doctor_id+'');
+        document.getElementById('patient_id').setAttribute("value", ''+data.patient_id+'');
+        document.getElementById('date').setAttribute("value", ''+data.date+'');
+        document.getElementById('timeSlot').setAttribute("value", ''+data.timeSlot+'');
+        document.getElementById('doctorName').setAttribute("value", ''+data.doctorName+'');
+        document.getElementById('patientName').setAttribute("value", ''+data.patientName+'');
+        document.getElementById('confirm').innerHTML ='<input type="submit" style="margin: 10px, 10px" class="btn btn-dark btn-sm" value="Confirm"></input>';
         
-        document.getElementById('bookAppointment').innerHTML = '<h4>Would you like to book an appointment with Dr '+name+' at '+timeslot+' on the '+date+'?</h4> <form class="solid" style="width: 450;" style="border-style: solid;" method="POST" action="/appointments" method="POST" ><input type="submit" class="btn btn-dark btn-sm" value="Confirm"></input></form>';
-        document.getElementById('postAppointment').innerHTML += '<input type="checkbox" class="urgent" id="urgent" name="urgent"></input><label class="form-check-label pull-right" for="urgent"><h5>Is this appointment urgent?</h5></label><br/>';
-        document.getElementById('doctor_id').setAttribute("value", ''+appointmentData.doctor_id+'');
-        document.getElementById('patient_id').setAttribute("value", ''+appointmentData.patient_id+'');
-        document.getElementById('date').setAttribute("value", ''+appointmentData.date+'');
-        document.getElementById('timeSlot').setAttribute("value", ''+appointmentData.timeSlot+'');
-        document.getElementById('doctorName').setAttribute("value", ''+appointmentData.doctorName+'');
-        document.getElementById('patientName').setAttribute("value", ''+appointmentData.patientName+'');
-        document.getElementById('postAppointment').innerHTML +='<input type="submit" style="margin: 10px, 10px" class="btn btn-dark btn-sm" value="Confirm"></input>';
     }
 
     function getToday() { // example responce: 14 (if the date is 14/10/2020)
@@ -252,21 +277,30 @@ let timeslots = { //time slots for data
         </div>
         
     </div>
+
+    <div id="top">
+        <p id="goBack" class="goBack"></p>
+    </div>
+
     
     <div id="appointmentList" class="appointmentList">
         <div id="bookAppointment">
-        <p id="goBack"></p>
-        <h4 id="isUrgent"></h4>
-        <form class="solid" style="width: 450;" style="border-style: solid;" action="/appointments/bookAppointment" method="POST" id="postAppointment">
+
+        </div>
+        
+        </div>
+        <form class="postAppointment"s  id="postAppointment" style="width: 450;" style="border-style: solid;" action="/appointments/bookAppointment" method="POST">
+            <p id="isUrgent"></p>
             <input type="hidden" id="doctor_id" name="doctor_id" ></input>
             <input type="hidden" id="patient_id" name="patient_id" ></input>
             <input type="hidden" id="date" name="date" ></input>
             <input type="hidden" id="timeSlot" name="timeSlot" ></input>
             <input type="hidden" id="doctorName" name="doctorName" ></input>
             <input type="hidden" id="patientName" name="patientName" ></input>
+            <p id="confirm"></p>
 
         </form>
-    </div>
+    
 
         <table class="listTimeslots" id="listTimeslots">
             <thead>

@@ -60,7 +60,7 @@ router.post('/bookAppointment', (req, res) => {
     newAppointment.save()
     .then(appointment => {
       console.log('Appointment Booked!');
-      res.redirect('/bookAppointment');
+      res.redirect('/dashboard');
      })
      .catch(err => console.log(err));
     
