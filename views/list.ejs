@@ -143,8 +143,8 @@ let timeslots = { //time slots for data
     function getAppointments(doctor) {
         let mainDiv = document.getElementById('docList');
         mainDiv.innerHTML = "";
-        var url = "http://localhost:5000/appointments/";
         let id = doctor._id;
+        var url = "http://localhost:5000/appointments/doc/" + id;
         let appointments = [];
 
         let dayNumber = parseInt(getToday());
@@ -158,6 +158,7 @@ let timeslots = { //time slots for data
             .then(function (response) {
                 return response.json();
             }).then(function (doctorsAppointmentSchedule) {
+                console.log(3);
                 for (let i = 0; i < doctorsAppointmentSchedule.length; i++) {
                     if (doctorsAppointmentSchedule[i].doctor_id === id) appointments.push(doctorsAppointmentSchedule[i]);
                 }
@@ -165,7 +166,7 @@ let timeslots = { //time slots for data
                 let table = document.getElementById('listTimeslots');
                 document.getElementById('dateHead').innerHTML = 'Date'
                 document.getElementById('timeslotHead').innerHTML =  'Timeslot'
-
+                console.log(1);
                 for (let i = 0; i <= 14; i++) {
                 if (dayNumber > months[monthNumber]){
                     dayNumber = 1;
@@ -181,7 +182,7 @@ let timeslots = { //time slots for data
                 let cell2 = row.insertCell(1);
                 let doctorHours = getTimeslots(dayOfWeek, doctor.availability);
                 let timeslotsLength = findTimeslotStart(doctor.availability[dayOfWeek].Start);
-
+                console.log(2);
                 for (let j = 0; j < doctorHours; j++) {
                     let appointmentData = {
                         doctor_id: doctor._id,
@@ -208,7 +209,7 @@ let timeslots = { //time slots for data
             dayNumber++;
         }
 
-                console.log(appointments);
+               
             }).catch(function (error) {
                 console.log('Fetching doctors error');
             })
