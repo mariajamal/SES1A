@@ -14,6 +14,32 @@ router.get('/dashboard', ensureAuthenticated, (req, res) =>
     user: req.user
   })
 );
+router.get('/list',ensureAuthenticated,(req,res)=>
+res.render('list',{
+  user: req.user,
+  lists: req.lists
+})
+)
+
+// Availability
+router.get('/availability', ensureAuthenticated, (req, res) =>
+  res.render('availability', {
+    user: req.user
+  })
+);
+
+router.get('/Availabilities', ensureAuthenticated, (req, res) =>
+ res.render('Availabilities', {
+   user: req.user
+  })
+);
+
+router.get('/bookAppointment', (req, res) => 
+res.render('bookAppointment', {
+  user: req.user
+  })
+  
+);
 
 //Chat room selection
 router.get('/room', ensureAuthenticated,  (req, res) => {

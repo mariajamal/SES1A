@@ -4,16 +4,24 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const flash = require('connect-flash');
 const session = require('express-session');
+const methodOverride = require('method-override');
 const socket = require('socket.io');
 const app = express();
-const Message = require('./app/models/Message')
+const Message= require('./app/models/Message');
+
+
+//method-override
+app.use(methodOverride('_method'));
 
 // Passport Config
 require('./app/config/passport')(passport);
 
+//method-override
+app.use(methodOverride('_method'));
+
 // DB Config
 const db = require('./app/config/keys').mongoURI;
-const chatDb = require('./app/config/keys').chatURI;
+// const chatDb = require('./app/config/keys').chatURI;
 
 // Connect to MongoDB
 mongoose
@@ -21,18 +29,10 @@ mongoose
     db,
     { useNewUrlParser: true ,useUnifiedTopology: true}
   )
-  .then(() => console.log('MongoDB Connected'))
+  .then(() => console.log('MongoDB Connected :)'))
   .catch(err => console.log(err));
 
-  /*
-mongoose
-  .connect(
-    'mongodb+srv://adam123:thepass@cluster0.zhp7v.mongodb.net/test?retryWrites=true&w=majority',
-    { useNewUrlParser: true ,useUnifiedTopology: true}
-  )
-  .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log(err));
-*/
+  
 // EJS
 app.use(expressLayouts);
 app.set('view engine', 'ejs');
@@ -69,6 +69,8 @@ app.use(function(req, res, next) {
 // Routes
 app.use('/', require('./app/routes/index.js'));
 app.use('/users', require('./app/routes/users.js'));
+app.use('/appointments',require('./app/routes/appointments.js'));
+app.use('/message', require('./app/routes/message.js'));
 
 const PORT = process.env.PORT || 5000;
 
@@ -78,13 +80,11 @@ let sock = socket(server);
 sock.on('connection', function(socket){
   console.log('connection', socket.id);
     socket.on('joinRoom', function(data){
-
       let rm = "";
       if(data.type == "doctor"){
         rm = data.name + data.rooms;
         socket.join(rm);
-      }
-      
+      }    
       else{
         rm = data.rooms + data.name
         socket.join(rm);
@@ -99,15 +99,13 @@ sock.on('connection', function(socket){
   
       socket.on('chat', function(d){
         sock.to(rm).emit('chat', d);
-        
-
         const newMessage = new Message({
           name: d.name,
           message: d.message,
           room: rm
-        })
+        });
 
-
+      
         newMessage.save()
         .then(result => {console.log(result)})
         .catch(err => {console.log(err)})

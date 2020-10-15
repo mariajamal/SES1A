@@ -5,12 +5,16 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  imgURL:{
+  type: String,
+  default: ''
+  },
   email: {
     type: String,
     required: true
   },
   age:{
-    type: Number,
+    type: Number
   },
   type:{
     type:String,
@@ -32,7 +36,57 @@ const UserSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  addressLine1:{
+    type:String,
+    //required: true
+  },
+  addressLine2:{
+    type:String,
+    //required: true
+  },
+  suburb:{
+    type:String,
+    //required: true
+  },
+  pincode:{
+    type:String,
+    //required: true
+  },
+  availability:{
+    type: Object,
+    default: {
+      Monday: {
+        Start: 'N/A',
+        End: 'N/A'
+        }, 
+      Tuesday: {
+        Start: 'N/A',
+        End: 'N/A'
+      }, 
+      Wednesday: {
+        Start: 'N/A',
+        End: 'N/A'
+      }, 
+      Thursday: {
+        Start: 'N/A',
+        End: 'N/A'
+      }, 
+      Friday: {
+        Start: 'N/A',
+        End: 'N/A'
+      }, 
+      Saturday: {
+        Start: 'N/A',
+        End: 'N/A'
+      },
+      Sunday: {
+        Start: 'N/A',
+        End: 'N/A'
+      } 
+    }
   }
+
 });
 
 const User = mongoose.model('User', UserSchema);
