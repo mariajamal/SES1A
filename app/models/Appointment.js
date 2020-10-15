@@ -25,6 +25,10 @@ const AppointmentSchema = new mongoose.Schema({
     patientName: {
         type: String,
         required: true
+    },
+    urgent: {
+        type: String,
+
     }
 });
 
