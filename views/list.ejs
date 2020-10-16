@@ -83,6 +83,11 @@ let timeslots = { //time slots for data
             let mainDiv = document.getElementById("docList");
             let divCard = document.createElement("DIV");
             divCard.classList.add("card");
+            divCard.classList.add("mb-3");
+            let rowDiv = document.createElement("DIV");
+            rowDiv.classList.add("row");
+            rowDiv.classList.add("no-gutters");
+
             let img = document.createElement("IMG");
             img.classList.add("card-img-top");
             img.src =  'doctor.png';
@@ -94,10 +99,22 @@ let timeslots = { //time slots for data
 
             let address= document.createElement("DIV");
             
+
+
+            let col1Div = document.createElement("DIV");
+            col1Div.classList.add("col-md-4");
+
+            let imgGps = document.createElement("IMG");
+            // imgGps.classList.add("card-img");
+            imgGps.src =  'gps.png';
+
+            let col2Div = document.createElement("DIV");
+            col2Div.classList.add("col-md-8");
+
             var a = document.createElement("A");
             var addressline1 = document.createElement("H5");
             
-            var link = document.createTextNode(doctors[i].addressLine1 + ", " + doctors[i].addressLine2 + ", "+doctors[i].suburb+", "+ doctors[i].state+", "+ doctors[i].pincode);
+            var link = document.createTextNode(doctors[i].addressLine1 + ", " + doctors[i].suburb+", "+ doctors[i].state+", "+ doctors[i].pincode);
             a.href = 'https://www.google.com/maps/search/' + doctors[i].addressLine1 + ", " +doctors[i].suburb+", "+ doctors[i].state+", "+ doctors[i].pincode, '_blank'
             let appointmentButton = document.createElement("BUTTON");
             appointmentButton.classList.add("btn");
@@ -112,12 +129,21 @@ let timeslots = { //time slots for data
             divBody.appendChild(docName);
             
             a.appendChild(link);
+            address.appendChild(imgGps);
             address.appendChild(a);
+            
             divBody.appendChild(address);
             divBody.appendChild(appointmentButton);
             divBody.appendChild(messageButton);
-            divCard.appendChild(img);
+            // divCard.appendChild(img);
             divCard.appendChild(divBody);
+
+            col1Div.appendChild(img);
+            
+            col2Div.appendChild(divBody);
+            rowDiv.appendChild(col1Div);
+            rowDiv.appendChild(col2Div);
+            divCard.appendChild(rowDiv);
             mainDiv.appendChild(divCard);
 
             messageButton.addEventListener('click',function(){
@@ -284,10 +310,11 @@ let timeslots = { //time slots for data
 </head>
 
 <body>
+    <% include ./partials/navbar %>
     <div class="container-fluid">
-        <div class="row" id ="row">
+        
             <div class="card-deck" id="docList"></div>
-        </div>
+        
         
     </div>
 
@@ -297,13 +324,11 @@ let timeslots = { //time slots for data
 
     
     <div id="appointmentList" class="appointmentList">
-        <div id="bookAppointment">
-
-        </div>
+        
         
         </div>
         <form class="postAppointment"s  id="postAppointment" style="width: 450;" style="border-style: solid;" action="/appointments/bookAppointment" method="POST">
-            <p id="isUrgent"></p>
+            <!-- <p id="isUrgent"></p> -->
             <input type="hidden" id="doctor_id" name="doctor_id" ></input>
             <input type="hidden" id="patient_id" name="patient_id" ></input>
             <input type="hidden" id="date" name="date" ></input>
@@ -323,6 +348,10 @@ let timeslots = { //time slots for data
             <tbody>
 
             </tbody>
+            <div id="bookAppointment">
+
+            </div>
+            <p id="isUrgent"></p>
             
     </div>
     

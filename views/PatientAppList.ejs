@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Appointment</title>
+    <title>View Appointment</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
 <style>
@@ -34,20 +34,18 @@
 
 
     
-    function displayPatients(patients) { // loops through the doctors array and sets the appropriate data to its spot in the doctors table
+    function displayDoctors(doctors) { // loops through the doctors array and sets the appropriate data to its spot in the doctors table
         
         
-        
-
-        for (let i = 0; i<patients.length; i++){
+        for (let i = 0; i<doctors.length; i++){
             
-            let patient = patients[i];
-            let mainDiv = document.getElementById("patientList");
+            // let doctors = doctors[i];
+            let mainDiv = document.getElementById("doctorList");
             let divCard = document.createElement("DIV");
             divCard.classList.add("card");
             divCard.classList.add("mb-3");
 
-            if(patients[i].isUrgent){
+            if(doctors[i].isUrgent){
                 divCard.classList.add("text-white");
                 divCard.classList.add("bg-danger");
             }
@@ -61,7 +59,7 @@
             
             let img = document.createElement("IMG");
             img.classList.add("card-img");
-            img.src =  'patient.png';
+            img.src =  'doctor.png';
 
             let col2Div = document.createElement("DIV");
             col2Div.classList.add("col-md-8");
@@ -69,17 +67,17 @@
             let bodyDiv = document.createElement("DIV");
             bodyDiv.classList.add("card-body");
 
-            var patientName = document.createElement("H5");
-            patientName.classList.add("card-title");
-            patientName.innerHTML= patients[i].patientName;
+            var doctorName = document.createElement("H5");
+            doctorName.classList.add("card-title");
+            doctorName.innerHTML= doctors[i].doctorName;
 
             var date = document.createElement("H6");
             date.classList.add("card-title");
-            date.innerHTML= "Date: "+patients[i].date;
+            date.innerHTML= "Date: "+doctors[i].date;
 
             var time = document.createElement("H6");
             time.classList.add("card-title");
-            time.innerHTML= "Time: "+patients[i].timeSlot;
+            time.innerHTML= "Time: "+doctors[i].timeSlot;
 
             let messageButton = document.createElement("BUTTON");
             messageButton.classList.add("btn");
@@ -91,13 +89,13 @@
             appointmentButton.classList.add("btn-primary");
             appointmentButton.innerHTML="Cancel Appointment";
 
-            bodyDiv.appendChild(patientName);
+            bodyDiv.appendChild(doctorName);
             bodyDiv.appendChild(date);
             bodyDiv.appendChild(time);
             bodyDiv.appendChild(messageButton);
             bodyDiv.appendChild(appointmentButton);
             col1Div.appendChild(img);
-            // divCard.appendChild(divBody);
+            
             col2Div.appendChild(bodyDiv);
             rowDiv.appendChild(col1Div);
             rowDiv.appendChild(col2Div);
@@ -110,18 +108,19 @@
 }
     
 
-    function getPatients() {
+    function getDoctors() {
         let data ='<%- JSON.stringify(user) %>'; 
         let user = JSON.parse(data);
-        // console.log(name._id);
-        var url = `http://localhost:5000/appointments/doc/${user._id}`;
+        console.log(name._id);
+        var url = `http://localhost:5000/appointments/patient/${user._id}`;
+        console.log(url);
         // 
         fetch(url)
             .then(function (response) {
                 return response.json();
             }).then(function (obj) {
                 console.log(obj)
-                displayPatients(obj);
+                displayDoctors(obj);
             }).catch(function (error) {
                 console.log('Fetching appointments error');
             })
@@ -136,7 +135,7 @@
     window.onload = function() {
         
         
-        getPatients();    
+        getDoctors();    
     }
 </script>
 </head>
@@ -145,7 +144,7 @@
     <% include ./partials/navbar %>
     <div class="container-fluid">
         
-            <div class="card-deck" id="patientList">
+            <div class="card-deck" id="doctorList">
                 
             </div>
         

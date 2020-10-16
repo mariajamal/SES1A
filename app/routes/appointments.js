@@ -17,6 +17,20 @@ router.get('/doc/:userid',(req,res)=> {
     });
 
 });
+
+router.get('/patient/:userid',(req,res)=> {
+  console.log(req.params.userid)
+  var query = { patient_id: req.params.userid};
+  Appointment.find(query)
+    .then((data) => {
+      res.send(data);
+      console.log("List of appointments", req.body);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+
+});
 /*
 router.post('/bookAppointment', (req, res) => {
     const { doctorID, patientID,  date, timeSlot, doctorName, patientName } = req.body;
@@ -78,6 +92,16 @@ router.post('/bookAppointment', (req, res) => {
 
 module.exports = router;
 
+router.delete('/:appointmentid', (req, res)=> {
+  Appointment.findByIdAndRemove(req.params.appointmentid)
+      .then((data) => {
+          res.send(data)
+          console.log("Deleted");
+      })
+      .catch((err) => {
+          res.send(err)
+      })
+})
 
 
 //check for errors before posting
