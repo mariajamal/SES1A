@@ -15,14 +15,34 @@
   height: 80%;
   margin: 10px, 10px
   }
-
-
+a{
+color: #000000;
+}
+  .container{
+    margin: 20px auto;
+}
+.bg-danger {
+    background-color:  #eb6864 !important;
+}
+.bg-primary {
+    background-color:  #91ced6 !important;
+}
+.card-img{
+    height:100%;
+}
+.btn{
+    margin: 3px !important;
+    width: auto !important;
+}
 .listTimeslots {
     margin: 20px 10px;
 }
 
 .listTimeslots button {
     margin: 0 5px;
+}
+.img{
+    padding: 0 10px;
 }
 
 
@@ -98,12 +118,15 @@ let timeslots = { //time slots for data
             let divCard = document.createElement("DIV");
             divCard.classList.add("card");
             divCard.classList.add("mb-3");
+
+            // divCard.classList.add("text-white");
+                divCard.classList.add("bg-primary");
             let rowDiv = document.createElement("DIV");
             rowDiv.classList.add("row");
             rowDiv.classList.add("no-gutters");
 
             let img = document.createElement("IMG");
-            img.classList.add("card-img-top");
+            img.classList.add("card-img");
             img.src =  'doctor.png';
             let divBody = document.createElement("DIV");
             divBody.classList.add("card-body");
@@ -119,14 +142,14 @@ let timeslots = { //time slots for data
             col1Div.classList.add("col-md-4");
 
             let imgGps = document.createElement("IMG");
-            // imgGps.classList.add("card-img");
+            imgGps.classList.add("img");
             imgGps.src =  'gps.png';
 
             let col2Div = document.createElement("DIV");
             col2Div.classList.add("col-md-8");
 
             var a = document.createElement("A");
-            var addressline1 = document.createElement("H5");
+            var address1 = document.createElement("p");
             
             var link = document.createTextNode(doctors[i].addressLine1 + ", " + doctors[i].suburb+", "+ doctors[i].state+", "+ doctors[i].pincode);
             a.href = 'https://www.google.com/maps/search/' + doctors[i].addressLine1 + ", " +doctors[i].suburb+", "+ doctors[i].state+", "+ doctors[i].pincode, '_blank'
@@ -143,8 +166,9 @@ let timeslots = { //time slots for data
             divBody.appendChild(docName);
             
             a.appendChild(link);
-            address.appendChild(imgGps);
-            address.appendChild(a);
+            address1.appendChild(imgGps);
+            address1.appendChild(a);
+            address.appendChild(address1);
             
             divBody.appendChild(address);
             divBody.appendChild(appointmentButton);
@@ -325,7 +349,7 @@ let timeslots = { //time slots for data
 
 <body>
     <% include ./partials/navbar %>
-    <div class="container-fluid">
+    <div class="container-fluid container">
         
             <div class="card-deck" id="docList"></div>
         
