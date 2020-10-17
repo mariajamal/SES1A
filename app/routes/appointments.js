@@ -89,27 +89,19 @@ router.post('/bookAppointment', (req, res) => {
 });
    
 
-
-module.exports = router;
-
 router.delete('/:appointmentid', (req, res)=> {
+  console.log('hello');
   Appointment.findByIdAndRemove(req.params.appointmentid)
       .then((data) => {
           res.send(data)
           console.log("Deleted");
+          res.redirect('/Patientapplist')
       })
       .catch((err) => {
           res.send(err)
       })
 })
 
+module.exports = router;
 
-//check for errors before posting
 
-// post the data if no errors
-
-// create get route for the data
-
-// if the appointment alreadyt exists don't display it to the user
-
-// if the appointment gets booked by somone else push that error
