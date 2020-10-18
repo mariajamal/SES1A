@@ -2,7 +2,7 @@ html, body{
     height: 100%;
     width: 100%;
     font-family: 'Poppins', sans-serif;
-    background-color: #e6e9ff !important;
+    background-color: white !important;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -13,21 +13,22 @@ html, body{
     left: 50%;
     transform: translate(-50%, -50%);
 
-    background:  #7386ff;;
+    background:  #006AFF;;
     margin: auto;
     width: 500px;
     max-width: 500px;
-    border: 15px solid #7386ff;
-    border-top: 10px solid #7386ff;
-    border-bottom: 10px solid #7386ff;
-    border-radius: 10px;
+    
+    border-top: 10px solid #006AFF;
+    border-bottom: 3px solid #006AFF;
+    border: 7px solid #006AFF;
+   border-radius: 5px;
 }
 
 #name-container{
     color:white;
     font-size: 25px;
     text-align: center;
-    background: #7386ff;
+    background: #006AFF;
     margin-bottom: 10px;
 }
 
@@ -55,13 +56,13 @@ html, body{
     margin: auto;
     
     
-    background: #7386ff;
+    background: #006AFF;
     
     
 }
 
 #text{
-    margin: 1px 0 1px 3px;
+    margin: 1px 0 1px 0;
     background: #F8F8F8;
     width: 87%;
     font-size: 13px;
@@ -85,9 +86,10 @@ html, body{
     margin-bottom: 1px;
     
     border-radius: 4px;
-    background-color: #E8E8E8;;
-    color: #7386ff;
+    background-color: white;
+    color: #006AFF;
     height: 42px;
+    width: 12%;
 }
 
 #msg-container{
@@ -97,7 +99,7 @@ html, body{
 }
 
 #msg-name{
-    color: #7386ff;
+    color: #006AFF;
     font-size: 13px;
     margin-bottom: 1px;
     padding: 5px 5px 0px 5px;
@@ -116,14 +118,25 @@ html, body{
         height: 100%;
         width: 100%;
         border: 0px;
+        border-radius: 0px;
     }
 
     #messages-container{
-        height: 88%;
+        height: 86%;
         max-height: 88%;
     }
     
     #text{
-        max-width: 80%;
+        max-width: 100%;
+    }
+
+    #name-container{
+        margin-top: 19px;
+       
+    }
+    #symb{
+        padding: 7px;
+        margin-bottom: 3px;
+        
     }
 }
