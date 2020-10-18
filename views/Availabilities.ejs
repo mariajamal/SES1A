@@ -54,6 +54,10 @@ td, th {
             };
         }
 
+        function showAlert() {
+        alert("You're availabilities are set");
+    }
+
         function setTableData(availability) {
             let table = document.getElementById('availabilityTable');
             for (let i = 0; i < 7; i++) {
@@ -135,7 +139,7 @@ td, th {
 
             </tbody>
             </table>
-            <input type="submit" class="btn btn-dark btn-sm"">
+            <input type="submit" onClick="showAlert()" class="btn btn-dark btn-sm" value="Confirm">
             </form>
 
 <!--

@@ -336,8 +336,12 @@ let timeslots = { //time slots for data
         document.getElementById('timeSlot').setAttribute("value", ''+data.timeSlot+'');
         document.getElementById('doctorName').setAttribute("value", ''+data.doctorName+'');
         document.getElementById('patientName').setAttribute("value", ''+data.patientName+'');
-        document.getElementById('confirm').innerHTML ='<input type="submit" style="margin: 10px, 10px" class="btn btn-dark btn-sm" value="Confirm"></input>';
+        document.getElementById('confirm').innerHTML ='<input type="submit" onClick="showAlert()"  style="margin: 10px, 10px" class="btn btn-dark btn-sm" value="Confirm"></input>';
         
+    }
+
+    function showAlert() {
+        alert("You're appointment has been booked");
     }
 
     function getToday() { // example responce: 14 (if the date is 14/10/2020)
