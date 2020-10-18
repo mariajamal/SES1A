@@ -110,6 +110,7 @@
             deleteAppointmentButton.classList.add("btn-primary");
             // console.log(1);
             deleteAppointmentButton.innerHTML="Cancel Appointment";
+            deleteAppointmentButton.onclick = function()  {alert("Your appointment has been removed");}
 
             bodyDiv.appendChild(doctorName);
             bodyDiv.appendChild(date);
