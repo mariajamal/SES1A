@@ -61,18 +61,21 @@ td, th {
     background-color: #91ced6;
   }
 
-  .bookAppointment {
-    height: 80%;
-  position: fixed;
-  top: 588px;
-  padding: 8px;
+  .listTimeslots {
+      position: initial;
   }
 
+  .bookAppointment { 
+    position:fixed;
+    bottom: 10; 
+    padding: 8px;
+}
+
 .postAppointment{
-    height: 80%;
-  position: fixed;
-  top: 625px;
-  padding: 8px;
+    padding: 8px;
+    position:fixed;
+    bottom: 4vh 
+
 }
 
 .form-check-input-reverse{
@@ -390,7 +393,7 @@ let timeslots = { //time slots for data
         <input type="hidden" id="patientName" name="patientName" ></input>
         <p id="confirm"></p>
     </form>
-
+    <div>
         <table class="listTimeslots" id="listTimeslots">
             <thead id = listTimeslotsHead>
             </thead>
