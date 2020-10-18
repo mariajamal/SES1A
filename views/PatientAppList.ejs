@@ -124,7 +124,11 @@
             divCard.appendChild(rowDiv);
             mainDiv.appendChild(divCard);
 
-           
+            
+
+            messageButton.addEventListener('click',function(){
+                window.location.href = 'chat?room=' + doctorName.textContent;
+            })
 
         }
 }
