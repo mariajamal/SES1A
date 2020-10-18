@@ -96,7 +96,11 @@ router.delete('/:appointmentid', (req, res)=> {
       .then((data) => {
           console.log("Deleted");
           req.method = "GET";
+          
           res.redirect("/PatientAppList");
+      
+
+
       })
       .catch((err) => {
           res.send(err)
