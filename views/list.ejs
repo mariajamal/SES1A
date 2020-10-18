@@ -61,6 +61,23 @@ td, th {
     background-color: #91ced6;
   }
 
+  .bookAppointment {
+    height: 80%;
+  position: fixed;
+  top: 588px;
+  padding: 8px;
+  }
+
+.postAppointment{
+    height: 80%;
+  position: fixed;
+  top: 625px;
+  padding: 8px;
+}
+
+.form-check-input-reverse{
+ margin-left: 10px;
+}
 </style>
 
 <script>
@@ -295,8 +312,9 @@ let timeslots = { //time slots for data
     let rowCount = myTable.rows.length;
     document.getElementById('goBack').innerHTML = "";
     document.getElementById('isUrgent').innerHTML = "";
-    document.getElementById('bookAppointment').innerHTML = ""
     document.getElementById('confirm').innerHTML = "";
+    
+    document.getElementById('bookAppointment').innerHTML = ""
     for (let i = rowCount - 1; i >= 0; i--) {
         myTable.deleteRow(i); 
     }
@@ -307,9 +325,8 @@ let timeslots = { //time slots for data
         let doctorName = data.doctorName;
         let timeSlot = data.timeSlot;
         let date = data.date;
-        //<input type="checkbox" class="urgent" id="urgent" name="urgent"></input><label class="form-check-label pull-right" for="urgent"><h5>Is this appointment urgent?</h5></label><br/>'
         document.getElementById('bookAppointment').innerHTML = '<h4 id="askDetails">Would you like to book an appointment with Dr '+doctorName+' at '+timeSlot+' on the '+date+'?</h4>';
-        document.getElementById('isUrgent').innerHTML = '<input type="checkbox" class="formatting2" id="urgent" name="urgent"></input><label class="form-check-label pull-right formatting2" for="urgent"><h5>Is this appointment urgent?</h5></label><br/>';
+        document.getElementById('isUrgent').innerHTML = '<input type="checkbox" class="form-check-input-reverse" id="urgent" name="urgent"></input><label class="form-check-input-reverse" for="urgent"><h5>Is this appointment urgent?</h5></label><br/>';
         document.getElementById('doctor_id').setAttribute("value", ''+data.doctor_id+'');
         document.getElementById('patient_id').setAttribute("value", ''+data.patient_id+'');
         document.getElementById('date').setAttribute("value", ''+data.date+'');
@@ -344,9 +361,6 @@ let timeslots = { //time slots for data
     
 
     window.onload = function() {
-        // let data = user._id; 
-        // let name = JSON.parse(data);
-        // console.log(name);
         
         getDoctors();    
     }
@@ -366,7 +380,16 @@ let timeslots = { //time slots for data
         <p id="goBack" class="goBack"></p>
     </div>
 
-       
+    <form class="postAppointment"  id="postAppointment" style="width: 450;" style="border-style: solid;" action="/appointments/bookAppointment" method="POST">
+        <p id="isUrgent"></p>
+        <input type="hidden" id="doctor_id" name="doctor_id" ></input>
+        <input type="hidden" id="patient_id" name="patient_id" ></input>
+        <input type="hidden" id="date" name="date" ></input>
+        <input type="hidden" id="timeSlot" name="timeSlot" ></input>
+        <input type="hidden" id="doctorName" name="doctorName" ></input>
+        <input type="hidden" id="patientName" name="patientName" ></input>
+        <p id="confirm"></p>
+    </form>
 
         <table class="listTimeslots" id="listTimeslots">
             <thead id = listTimeslotsHead>
@@ -374,27 +397,16 @@ let timeslots = { //time slots for data
             <tbody>
 
             </tbody>
+            </table>
             
-            <p id="isUrgent"></p>
             
             
     </div>
-    <div class="formatting">
-        <form class="postAppointment"  id="postAppointment" style="width: 450;" style="border-style: solid;" action="/appointments/bookAppointment" method="POST">
-            <!-- <p id="isUrgent"></p> -->
-            <input type="hidden" id="doctor_id" name="doctor_id" ></input>
-            <input type="hidden" id="patient_id" name="patient_id" ></input>
-            <input type="hidden" id="date" name="date" ></input>
-            <input type="hidden" id="timeSlot" name="timeSlot" ></input>
-            <input type="hidden" id="doctorName" name="doctorName" ></input>
-            <input type="hidden" id="patientName" name="patientName" ></input>
-            <p class="formatting" id="confirm"></p>
-
-        </form>
+        
+        
         <div id="bookAppointment" class="bookAppointment">
 
         </div>
-    </div>  
     
     
 </body>
