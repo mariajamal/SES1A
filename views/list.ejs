@@ -66,12 +66,14 @@ td, th {
   }
 
   .bookAppointment { 
+    position:fixed;
     bottom: 10; 
     padding: 8px;
 }
 
 .postAppointment{
     padding: 8px;
+    position:fixed;
     bottom: 4vh 
 
 }
@@ -254,7 +256,7 @@ let timeslots = { //time slots for data
                 tableHead.innerHTML = '<th><h4><b>Date</b></h4></th><th><h4><b>Time</b></h4></th>';
                 
                 console.log(1);
-                for (let i = 0; i < 7; i++) {
+                for (let i = 0; i <= 7; i++) {
                 if (dayNumber > months[monthNumber]){
                     dayNumber = 1;
                     monthNumber++;
