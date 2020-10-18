@@ -64,6 +64,7 @@ router.post('/bookAppointment', (req, res) => {
     
     const { urgent, patientName, doctorName, date, timeSlot, doctor_id, patient_id } = req.body;
     console.log(req.body);
+    console.log('1');
     let isUrgent = true;
     if (urgent === "on") {
        isUrgent = true;
@@ -93,9 +94,9 @@ router.delete('/:appointmentid', (req, res)=> {
   console.log('hello');
   Appointment.findByIdAndRemove(req.params.appointmentid)
       .then((data) => {
-          res.send(data)
           console.log("Deleted");
-          res.redirect('/Patientapplist')
+          req.method = "GET";
+          res.redirect("/PatientAppList");
       })
       .catch((err) => {
           res.send(err)
