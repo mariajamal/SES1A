@@ -24,7 +24,21 @@
 .listTimeslots button {
     margin: 8px 5px;
 }
-
+.container{
+    margin: 20px auto;
+}
+.bg-danger {
+    background-color:  #eb6864 !important;
+}
+.bg-primary {
+    background-color:  #91ced6 !important;
+}
+.card-img{
+    height:100%;
+}
+.btn{
+    margin: 3px !important;
+}
 
 </style>
 
@@ -48,6 +62,9 @@
             if(doctors[i].isUrgent){
                 divCard.classList.add("text-white");
                 divCard.classList.add("bg-danger");
+            }else{
+                divCard.classList.add("text-white");
+                divCard.classList.add("bg-primary");
             }
 
             let rowDiv = document.createElement("DIV");
@@ -87,10 +104,11 @@
             let appointmentForm = document.createElement("FORM");
             let deleteAppointmentButton = document.createElement("BUTTON");
             appointmentForm.appendChild(deleteAppointmentButton);
+            appointmentForm.method= "POST"
             appointmentForm.action = "/appointments/" + doctors[i]._id + "?_method=DELETE";
             deleteAppointmentButton.classList.add("btn");
             deleteAppointmentButton.classList.add("btn-primary");
-            console.log(1);
+            // console.log(1);
             deleteAppointmentButton.innerHTML="Cancel Appointment";
 
             bodyDiv.appendChild(doctorName);
@@ -112,9 +130,14 @@
 }
     
 
-    function deleteAppointment(id) {
+//     function deleteAppointment(id) {
+//         $.ajax({
+//      url : `/appointments/${id}`,
+//      method : 'delete',
+     
+// })
            
-    }
+    // }
 
     function getDoctors() {
         let data ='<%- JSON.stringify(user) %>'; 
@@ -150,7 +173,7 @@
 
 <body>
     <% include ./partials/navbar %>
-    <div class="container-fluid">
+    <div class="container-fluid container">
         
             <div class="card-deck" id="doctorList">
                 
