@@ -65,22 +65,13 @@ td, th {
       position: initial;
   }
 
-  .bookAppointment { 
-    position:fixed;
-    bottom: 10; 
-    padding: 8px;
+  .bookAppointment, .postAppointment{
+      padding: 0 8px;
+ }
+label {
+    padding: 0 8px;
 }
-
-.postAppointment{
-    padding: 8px;
-    position:fixed;
-    bottom: 4vh 
-
-}
-
-.form-check-input-reverse{
- margin-left: 10px;
-}
+ 
 </style>
 
 <script>
@@ -256,7 +247,7 @@ let timeslots = { //time slots for data
                 tableHead.innerHTML = '<th><h4><b>Date</b></h4></th><th><h4><b>Time</b></h4></th>';
                 
                 console.log(1);
-                for (let i = 0; i <= 7; i++) {
+                for (let i = 0; i < 7; i++) {
                 if (dayNumber > months[monthNumber]){
                     dayNumber = 1;
                     monthNumber++;
@@ -386,6 +377,10 @@ let timeslots = { //time slots for data
     <div id="top">
         <p id="goBack" class="goBack"></p>
     </div>
+    
+    <div id="bookAppointment" class="bookAppointment">
+
+    </div>
 
     <form class="postAppointment"  id="postAppointment" style="width: 450;" style="border-style: solid;" action="/appointments/bookAppointment" method="POST">
         <p id="isUrgent"></p>
@@ -411,10 +406,6 @@ let timeslots = { //time slots for data
     </div>
         
         
-        <div id="bookAppointment" class="bookAppointment">
-
-        </div>
-    </div>
     
     
 </body>
